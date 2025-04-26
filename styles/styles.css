@@ -1,0 +1,1137 @@
+/* Resets all the elements and removes the default margins and padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* The base styles for the html and body elements */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  box-sizing: border-box;
+  min-height: 100vh;
+}
+
+/* The main body styling */
+body {
+  line-height: 1;
+  font-family: Arial, sans-serif;
+  color: #0484ca;
+  background-color: #74ccf4;
+  scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* This ensures that the box-sizing is inherited */
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+/* landing section*/
+/* Full-screen landing section with a background image of hands and water */
+.landing_section {
+  height: 100vh;
+  width: 100%;
+  background: url("../Images/close-up-view-nature-concept.jpg") no-repeat center
+    center;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+/* The overlay for the landing section */
+.landing_section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(1, 90, 156, 0.5);
+}
+
+/* this is the content container within landing section */
+.landing_content {
+  position: relative;
+  z-index: 1;
+  color: white;
+  max-width: 800px;
+  padding: 20px;
+  animation: fadeIn 1.5s ease-out;
+}
+
+/* The landing section heading styling*/
+.landing_content h1 {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* The landing section paragraph styling */
+.landing_content p {
+  font-size: 1.8rem;
+  margin-bottom: 40px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* The start button styling */
+.start_button {
+  padding: 15px 50px;
+  background-color: #f8d34c;
+  color: #015a9c;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* The start button hover effect */
+.start_button:hover {
+  background-color: #ffdf60;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* The fade-in animation keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* top bar */
+/* A fixed top bar styling */
+.top_bar {
+  background-color: #015a9c;
+  color: white;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* CSS styling and alignment for the logo image in top bar */
+.top_bar img {
+  height: 100px;
+  width: 100px;
+  margin-left: 25px;
+  object-fit: cover;
+  display: block;
+}
+
+/* The game title text in top bar */
+.game_title_text {
+  flex: 1;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  padding-right: 100px;
+  text-decoration: none;
+  color: #ffffff;
+}
+
+/* Highlight color styling for the text */
+.highlight_yellow {
+  color: #f8d34c;
+}
+
+/* sidebar */
+/* the side navigation menu container */
+.menu_bar {
+  position: fixed;
+  top: 100px;
+  left: 0;
+  z-index: 999;
+  width: 150px;
+}
+
+/* Styling for the menu button */
+.menu_button {
+  width: 150px;
+  padding: 15px;
+  background-color: #04b3fb;
+  color: white;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.3s ease;
+}
+
+/* The menu button hover effect for some styling */
+.menu_button:hover {
+  background-color: #f8d34c;
+}
+
+/* The menu links container which are hidden by default */
+.menu_links {
+  display: none;
+  background-color: #04b3fb;
+  width: 150px;
+  position: fixed;
+  top: 145px;
+  left: 0;
+  height: calc(100vh - 145px - 60px);
+  overflow-y: auto;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  transform: translateX(-100%);
+}
+
+/* The active state for the menu links */
+.menu_links.active {
+  display: block;
+  transform: translateX(0);
+}
+
+/* The CSS for the menu list styling */
+.menu_links ul {
+  list-style: none;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+/* Menu list items */
+.menu_links li {
+  text-align: center;
+  border-top: 1px solid #03a0e0;
+  flex-grow: 1;
+}
+
+/* This removes the border from first menu item */
+.menu_links li:first-child {
+  border-top: none;
+}
+
+/* Menu link styling */
+.menu_links a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 15px;
+  width: 100%;
+  height: 100%;
+  transition: background 0.3s ease;
+}
+
+/* Menu link hover effect for extra styling */
+.menu_links a:hover {
+  background-color: #f8d34c;
+}
+
+/* main area */
+/* This is the main content container */
+.main_area {
+  margin-top: 120px;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: margin-left 0.3s ease;
+  flex-shrink: 0;
+}
+
+/* The content box styling */
+.content_box {
+  width: 100%;
+  max-width: 1000px;
+  background-color: #ffffff;
+  border: 2px solid #1ca3ec;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(15, 94, 156, 0.2);
+  margin-bottom: 40px;
+}
+
+/* Content box heading styling */
+.content_box h1 {
+  text-align: center;
+  color: #0f5e9c;
+  margin-bottom: 25px;
+}
+
+/* form */
+/* Information form structure */
+#info_form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+  border: none;
+}
+
+/* The form label styling */
+#info_form label {
+  display: block;
+  font-weight: bold;
+  color: #015a9c;
+  margin-bottom: 0;
+}
+
+/* This the styling for the form text input */
+#info_form input[type="text"] {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #74ccf4;
+  border-radius: 5px;
+  font-size: 1em;
+  margin-bottom: 0;
+}
+
+/* STyling for the form submit button */
+#info_form button[type="submit"] {
+  padding: 12px;
+  background-color: #1ca3ec;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.1em;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+/* The form submit button hover effects */
+#info_form button[type="submit"]:hover {
+  background-color: #0f5e9c;
+}
+
+/* simulation */
+/* This is the game container */
+#game_div {
+  margin-top: 30px;
+  padding: 20px;
+  border: 1px solid #74ccf4;
+  border-radius: 8px;
+  background-color: #f0faff;
+}
+
+/* The progress bars container */
+#progress_bars_div {
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #d0eefc;
+}
+
+/* The attribute bars layout */
+.attribute_bars_div {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+/* An individual progress container */
+.progress_container {
+  flex: 1;
+  min-width: 150px;
+  margin-bottom: 10px;
+}
+
+/* Progress bar label */
+.progress_container label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #015a9c;
+  font-size: 0.9em;
+}
+
+/* The background for the progress bar */
+.the_bar {
+  background-color: #e0f7ff;
+  border-radius: 5px;
+  overflow: hidden;
+  height: 25px;
+  border: 1px solid #b3e5fc;
+  position: relative;
+}
+
+/* Progress bar fill styling */
+.bar_fill {
+  background-color: #1ca3ec;
+  height: 100%;
+  width: 0%;
+  border-radius: 5px;
+  transition: width 0.5s ease-out;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  line-height: 25px;
+  font-size: 0.85em;
+  box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Color variations for the different progress in the progress bars */
+.bar_fill.people_color {
+  background-color: #5cb85c;
+}
+
+.bar_fill.money_color {
+  background-color: #f0ad4e;
+}
+
+.bar_fill.water_color {
+  background-color: #5bc0de;
+}
+
+/* The progress bar value text */
+.bar_value {
+  position: absolute;
+  right: 10px;
+  top: 0;
+  line-height: 25px;
+  font-size: 0.8em;
+  color: #015a9c;
+  font-weight: bold;
+}
+
+/* our story */
+/* The story container */
+#story_div {
+  margin-bottom: 20px;
+}
+
+/* Story fade effects */
+.story_fade_effect {
+  opacity: 1;
+  transition: opacity 0.4s ease-in-out;
+}
+
+/* Fade-out state styling */
+.story_fade_effect.fade-out {
+  opacity: 0;
+}
+
+/* The story paragraph styling */
+#story_paragraph {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+  line-height: 1.6;
+  color: #015a9c;
+}
+
+/* A strong text style in the story */
+#story_paragraph strong {
+  font-weight: bold;
+  color: #0f5e9c;
+}
+
+/* choices */
+/* This is the container for the choices form */
+#choice_form {
+  margin-top: 20px;
+}
+
+/* Styling for the individual choice item */
+#choices_div .choice-item {
+  display: block;
+  margin-bottom: 12px;
+  background-color: #eafaff;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 1px solid #c1e8fa;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+/* Choices item hover effect */
+#choices_div .choice-item:hover {
+  background-color: #d4f3ff;
+}
+
+/* Radio buttons styling */
+#choices_div input[type="radio"] {
+  margin-right: 10px;
+  vertical-align: middle;
+  cursor: pointer;
+  accent-color: #015a9c;
+}
+
+/* The choice label styling */
+#choices_div label {
+  cursor: pointer;
+  color: #015a9c;
+  font-size: 1em;
+  vertical-align: middle;
+}
+
+/* The users selected choice styling */
+#choices_div input[type="radio"]:checked + label {
+  font-weight: bold;
+  color: #0f5e9c;
+  text-decoration: none;
+}
+
+/* Styling for the users selected choice item */
+#choices_div .choice-item:has(input[type="radio"]:checked) {
+  background-color: #c1e8fa;
+  border-color: #74ccf4;
+}
+
+/* Confirm button styling */
+#confirm_button {
+  display: block;
+  margin: 20px auto 0 auto;
+  padding: 10px 25px;
+  background-color: #1ca3ec;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.05em;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Confirm button hover effect */
+#confirm_button:hover {
+  background-color: #0f5e9c;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
+}
+
+/* Confirm button active state styling */
+#confirm_button:active {
+  transform: scale(0.98);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* The choice button style */
+.choice_button_style {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 12px 15px;
+  background-color: #3ea4f0;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  text-align: left;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Choice button hover effect */
+.choice_button_style:hover {
+  background-color: #1ca3ec;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Choice buttons active state styling */
+.choice_button_style:active {
+  transform: scale(0.98);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* nav buttons */
+/* Navigation buttons container */
+#nav_buttons_div {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* The back buttons styling */
+#back_button {
+  padding: 10px 20px;
+  background-color: #f8d34c;
+  color: #015a9c;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* The back buttons hover effect*/
+#back_button:hover {
+  background-color: #ffdf60;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* The back buttons active state styling */
+#back_button:active {
+  transform: scale(0.98);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* dropdowns */
+/* Dropdown container */
+.dropdown_box {
+  width: 100%;
+  max-width: 1000px;
+  margin: 40px auto 0 auto;
+}
+
+/* Dropdown area width */
+.dropdowns_area {
+  width: 100%;
+}
+
+/* The individual dropdowns styling */
+.a_dropdown {
+  margin-bottom: 15px;
+  border: 1px solid #1ca3ec;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: white;
+}
+
+/* Dropdown button styling */
+.dropdown_button {
+  width: 100%;
+  padding: 15px;
+  text-align: left;
+  background-color: #1ca3ec;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: bold;
+  transition: background 0.3s;
+  position: relative;
+}
+
+/* Dropdown button arrow positioning */
+.dropdown_button::after {
+  content: "\25BC";
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform 0.3s ease;
+}
+
+/* The dropdown button hover effect */
+.dropdown_button:hover {
+  background-color: #0f5e9c;
+}
+
+/* The dropdown content which is hidden by default */
+.dropdown_info {
+  display: none;
+  padding: 20px;
+  flex-wrap: wrap;
+  background-color: white;
+  border-top: 1px solid #1ca3ec;
+  animation: slideDown 0.4s ease-out;
+}
+
+/* Active dropdowns content */
+.dropdown_info.active {
+  display: flex;
+}
+
+/* Rotate the arrow when the dropdown is active */
+.dropdown_info.active + .dropdown_button::after,
+.dropdown_button:has(+ .dropdown_info.active)::after {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+/* The text part of the dropdowns */
+.dropdown_text_part {
+  flex: 2;
+  min-width: 60%;
+  padding-right: 20px;
+}
+
+/* Dropdown headings styling */
+.dropdown_text_part h2 {
+  color: #0f5e9c;
+  margin-bottom: 10px;
+  margin-top: 15px;
+  font-size: 1.3em;
+}
+
+/* First heading in dropdown style */
+.dropdown_text_part h2:first-of-type {
+  margin-top: 0;
+}
+
+/* Dropdown paragraph styles */
+.dropdown_text_part p {
+  margin-bottom: 10px;
+  color: #0f5e9c;
+  line-height: 1.6;
+}
+
+/* Image part of dropdown styles */
+.dropdown_image_part {
+  flex: 1;
+  min-width: 200px;
+  max-width: 300px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+
+/* Dropdown images styles */
+.dropdown_image_part img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  border: 1px solid #74ccf4;
+}
+
+/* about us */
+/* This is the about us section container */
+.about_us_section {
+  width: 100%;
+  background-color: #e0f7ff;
+  padding: 30px 20px;
+  flex-shrink: 0;
+}
+
+/* About us content container */
+.about_us_content {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+/* About us text styling */
+.about_text {
+  flex: 1;
+  min-width: 300px;
+  color: #0f5e9c;
+}
+
+/* About us heading styling*/
+.about_text h2 {
+  color: #015a9c;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+}
+
+/* About us paragraphs styling */
+.about_text p {
+  margin-bottom: 15px;
+  line-height: 1.6;
+  color: #015a9c;
+}
+
+/* The last paragraph in the about us section */
+.about_text p:last-child {
+  margin-bottom: 0;
+}
+
+/* this is the about us image container */
+.about_image {
+  flex: 1;
+  min-width: 300px;
+  max-width: 450px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* About us image styling*/
+.about_image img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* footer*/
+/* The footer container */
+.footer_area {
+  background-color: #015a9c;
+  color: white;
+  width: 100%;
+  position: relative;
+  height: auto;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  z-index: 100;
+  padding: px 20px;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.2);
+  margin-top: auto;
+}
+
+/* This is the footer content container */
+.footer_content {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-left: 20px;
+  gap: 15px;
+  transition: padding-left 0.3s ease;
+  text-align: left;
+}
+
+/*Container for the icon and text*/
+.footer_item {
+  display: flex;
+  align-items: center;
+  margin: 0 10px;
+}
+
+/* icon image */
+.footer_icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  object-fit: contain;
+}
+
+.footer_item p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.footer_item a.back_top_link {
+  margin: 0;
+}
+
+.back_top_link {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: color 0.3s;
+}
+
+/* Back to top link hover effect*/
+.back_top_link:hover {
+  color: #f8d34c;
+}
+
+/* Donate button styling */
+.donate_button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 24px;
+  background-color: #0077b6;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border: none;
+}
+
+/* Donate button hover effect */
+.donate_button:hover {
+  background-color: #023e8a;
+  transform: scale(1.05);
+}
+
+/* popup */
+/* This is the popup background overlay */
+.my_popup_background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(1, 90, 156, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* The visible popup background */
+.my_popup_background.visible {
+  opacity: 1;
+}
+
+/* The popup box */
+.my_popup_box {
+  background-color: #ffffff;
+  padding: 30px 40px;
+  border-radius: 8px;
+  border: 2px solid #1ca3ec;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 450px;
+  width: 90%;
+  color: #015a9c;
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+/* The visible popup box */
+.my_popup_background.visible .my_popup_box {
+  transform: scale(1);
+}
+
+/* Popup alert text styling */
+#my_alert_text {
+  font-size: 1.1em;
+  line-height: 1.5;
+  margin-bottom: 25px;
+}
+
+/* the popup buttons container */
+.popup_buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 0;
+}
+
+/* The popup button styling */
+.popup_buttons button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  min-width: 80px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Popup button hover effect */
+.popup_buttons button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
+}
+
+/* Popup button active state style */
+.popup_buttons button:active {
+  transform: scale(0.98);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* OK button in the popups style */
+#my_alert_ok_button {
+  background-color: #1ca3ec;
+  color: white;
+}
+
+/* The OK button hover effect */
+#my_alert_ok_button:hover {
+  background-color: #0f5e9c;
+}
+
+/* The cancel button in the popup style */
+#my_alert_cancel_button {
+  background-color: #f8d34c;
+  color: #015a9c;
+}
+
+/* The cancel button hover effect */
+#my_alert_cancel_button:hover {
+  background-color: #ffdf60;
+}
+
+/* restart*/
+/* The restart button styling */
+#restart_button {
+  padding: 10px 25px;
+  background-color: #1ca3ec;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.05em;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+  display: inline-block;
+}
+
+/* Restart button hover effect */
+#restart_button:hover {
+  background-color: #0f5e9c;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
+}
+
+/* The restart buttons active state style */
+#restart_button:active {
+  transform: scale(0.98);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* responsive (starting) */
+/* Medium screens (tablets) */
+@media (max-width: 992px) {
+  .footer_content {
+    justify-content: center;
+  }
+}
+
+/* Small screens (mobile) */
+@media (max-width: 768px) {
+  /* Adjusts the landing section text size */
+  .landing_content h1 {
+    font-size: 2.5rem;
+  }
+
+  .landing_content p {
+    font-size: 1.3rem;
+  }
+
+  /* Adjusts the top bar text size */
+  .top_bar .game_title_text {
+    font-size: 1.5rem;
+    padding-right: 20px;
+  }
+
+  /* Adjusts the menu layout size */
+  .menu_button {
+    width: 100%;
+    position: fixed;
+    top: 100px;
+    left: 0;
+    z-index: 1001;
+  }
+
+  .menu_bar {
+    width: 100%;
+    top: 100px;
+  }
+
+  .menu_links {
+    width: 200px;
+    top: 145px;
+    height: calc(100vh - 145px);
+    bottom: auto;
+  }
+
+  /* Adjusts the main content area size */
+  .main_area {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 0;
+    padding: 15px;
+  }
+
+  .content_box {
+    padding: 20px;
+  }
+
+  .content_box h1 {
+    text-align: center;
+    color: #0f5e9c;
+    margin-bottom: 25px;
+  }
+
+  #info_form {
+    max-width: 100%;
+  }
+
+  /* Adjusts the footer layout size */
+  .footer_content {
+    padding-left: 20px;
+    padding-right: 20px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer_text {
+    margin: 8px 0;
+    justify-content: center;
+  }
+
+  .footer_area {
+    height: auto;
+    padding: 5px 20px;
+  }
+
+  /* Adjusts the about us section */
+  .about_us_content {
+    flex-direction: column;
+    padding: 30px 20px;
+    gap: 30px;
+  }
+
+  .about_text,
+  .about_image {
+    min-width: 100%;
+  }
+
+  /* Adjusts the dropdown layout size*/
+  .dropdown_info {
+    flex-direction: column;
+  }
+
+  .dropdown_image_part {
+    padding-left: 0;
+    padding-top: 15px;
+    max-width: 100%;
+  }
+
+  .dropdown_text_part {
+    padding-right: 0;
+  }
+}
+
+/* The dropdown animation keyframes*/
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 1000px;
+  }
+}

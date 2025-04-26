@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Thirst for Change</title>
+    <link rel="stylesheet" href="styles/styles.css" />
+  </head>
+  <body id="body_top">
+    <noscript>
+      <div
+        style="
+          background-color: yellow;
+          padding: 10px;
+          text-align: center;
+          font-weight: bold;
+        "
+      >
+        Please turn on JavaScript to play this.
+      </div>
+    </noscript>
+
+    <section class="landing_section" id="landing">
+      <div class="landing_content">
+        <h1 style="color: #74ccf4">
+          Welcome to Thirst for <span class="highlight_yellow">Change</span>
+        </h1>
+        <p>
+          Experience the impact of water conservation through our interactive
+          simulation
+        </p>
+        <a href="#game_section" class="start_button">Enter Simulation</a>
+      </div>
+    </section>
+
+    <div class="top_bar">
+      <a href="#body_top"><img src="Images/Untitled-1.jpg" alt="Logo" /></a>
+      <a href="#body_top" class="game_title_text"
+        >Thirst for <span class="highlight_yellow">Change</span></a
+      >
+    </div>
+    <div class="menu_bar">
+      <button class="menu_button">☰ Menu</button>
+      <div class="menu_links">
+        <ul>
+          <li><a href="#landing">Home</a></li>
+          <li><a href="#game_section">Simulation</a></li>
+          <li><a href="#about_section">About</a></li>
+          <li><a href="#contact_section">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="main_area" id="game_section">
+      <div class="content_box">
+        <h1>Thirst for Change</h1>
+        <form id="info_form">
+          <label for="user_input_name">Your Name:</label>
+          <input type="text" id="user_input_name" name="playerName" required />
+
+          <label for="village_input_name">Village Name:</label>
+          <input
+            type="text"
+            id="village_input_name"
+            name="villageName"
+            required
+          />
+
+          <button type="submit">Start Simulation</button>
+        </form>
+
+        <div id="game_div" style="display: none">
+          <div id="progress_bars_div">
+            <div class="progress_container">
+              <label for="generalProgress">Simulation Progress:</label>
+              <div class="the_bar">
+                <div id="progress_bar_fill" class="bar_fill">0%</div>
+              </div>
+            </div>
+            <div class="attribute_bars_div">
+              <div class="progress_container">
+                <label for="supportProgress">Community Support:</label>
+                <div class="the_bar">
+                  <div id="people_bar" class="bar_fill people_color"></div>
+                  <span id="people_value" class="bar_value">50%</span>
+                </div>
+              </div>
+              <div class="progress_container">
+                <label for="fundingProgress">Funding:</label>
+                <div class="the_bar">
+                  <div id="money_bar" class="bar_fill money_color"></div>
+                  <span id="money_value" class="bar_value">50%</span>
+                </div>
+              </div>
+              <div class="progress_container">
+                <label for="waterLevelProgress">Water Level:</label>
+                <div class="the_bar">
+                  <div id="water_bar" class="bar_fill water_color"></div>
+                  <span id="water_value" class="bar_value">50%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="story_div" class="story_fade_effect">
+            <p id="story_paragraph">Loading simulation...</p>
+          </div>
+
+          <form id="choice_form">
+            <div id="choices_div"></div>
+            <button type="submit" id="confirm_button" style="display: none">
+              Confirm Choice
+            </button>
+          </form>
+
+          <div id="nav_buttons_div" style="margin-top: 20px">
+            <button id="back_button" style="display: none">Go Back</button>
+          </div>
+        </div>
+      </div>
+      <div class="dropdown_box">
+        <div class="dropdowns_area">
+          <div class="a_dropdown" id="tips">
+            <button class="dropdown_button">Water Conservation Tips</button>
+            <div class="dropdown_info">
+              <div class="dropdown_text_part">
+                <h2>Tip 1</h2>
+                <p>
+                  Water conservation is crucial for sustaining our environment
+                  and ensuring that future generations have access to clean
+                  water. One effective way to conserve water is by making small
+                  changes in our daily habits. For instance, turning off the tap
+                  while brushing your teeth or shaving can save several gallons
+                  of water each day. Additionally, fixing leaks in faucets and
+                  pipes promptly can prevent significant water wastage.
+                  Installing water-efficient fixtures, such as low-flow
+                  showerheads and toilets, can also make a substantial
+                  difference in reducing water consumption.
+                </p>
+                <br />
+                <h2>Tip 2</h2>
+                <p>
+                  In the garden, water conservation can be achieved through
+                  smart landscaping practices. Opting for drought-resistant
+                  plants and using mulch can help retain soil moisture, reducing
+                  the need for frequent watering. Implementing drip irrigation
+                  systems instead of traditional sprinklers ensures that water
+                  is delivered directly to the plant roots, minimizing
+                  evaporation and runoff. Collecting rainwater in barrels for
+                  garden use is another effective method to conserve water and
+                  reduce reliance on municipal supplies.
+                </p>
+                <br />
+              </div>
+              <div class="dropdown_image_part">
+                <img
+                  src="Images/realistic-water-drop-with-ecosystem.jpg"
+                  alt="Tips image"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="a_dropdown" id="project_about">
+            <button class="dropdown_button">About Our Project</button>
+            <div class="dropdown_info">
+              <div class="dropdown_text_part">
+                <p>
+                  Thirst for Change is dedicated to raising awareness about the
+                  critical issue of water scarcity. Through our innovative
+                  simulation, participants can see firsthand how mindful water
+                  usage can create a ripple effect, leading to lasting positive
+                  impacts on the environment and communities. This interactive
+                  experience highlights the importance of individual actions in
+                  contributing to the larger goal of water sustainability,
+                  demonstrating that every drop counts in the fight against
+                  water scarcity.
+                </p>
+              </div>
+              <div class="dropdown_image_part">
+                <img
+                  src="Images/medium-shot-mean-cleaning-their-hands.jpg"
+                  alt="About image"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="a_dropdown" id="help">
+            <button class="dropdown_button">How You Can Help</button>
+            <div class="dropdown_info">
+              <div class="dropdown_text_part">
+                <p>
+                  Thirst for Change is dedicated to raising awareness about the
+                  critical issue of water scarcity. Through our innovative
+                  simulation, participants can see firsthand how mindful water
+                  usage can create a ripple effect, leading to lasting positive
+                  impacts on the environment and communities. This interactive
+                  experience highlights the importance of individual actions in
+                  contributing to the larger goal of water sustainability,
+                  demonstrating that every drop counts in the fight against
+                  water scarcity. To support our mission and make a difference,
+                  you can donate at this link.
+                </p>
+                <a
+                  href="https://water.org/donate/"
+                  class="donate_button"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Donate Now</a
+                >
+              </div>
+              <div class="dropdown_image_part">
+                <img src="Images/5007690.jpg" alt="Help image" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="about_us_section" id="about_section">
+      <div class="about_us_content">
+        <div class="about_text">
+          <h2>About Us</h2>
+          <p>
+            Thirst for Change is dedicated to raising awareness about the
+            critical issue of water scarcity. Through our innovative simulation,
+            participants can see firsthand how mindful water usage can create a
+            ripple effect, leading to lasting positive impacts on the
+            environment and communities. This interactive experience highlights
+            the importance of individual actions in contributing to the larger
+            goal of water sustainability, demonstrating that every drop counts
+            in the fight against water scarcity.
+          </p>
+        </div>
+        <div class="about_image">
+          <img src="Images/Water_Droplet.png" alt="Water drop" />
+        </div>
+      </div>
+    </div>
+    <footer class="footer_area" id="contact_section">
+      <div class="footer_content">
+        <div class="footer_item">
+          <img src="Images/phone (1).png" alt="Phone" class="footer_icon" />
+          <p>012 555 1234</p>
+        </div>
+        <div class="footer_item">
+          <img src="Images/gps.png" alt="Location" class="footer_icon" />
+          <p>123 Water Street, Centurion</p>
+        </div>
+        <div class="footer_item">
+          <img src="Images/letter.png" alt="Email" class="footer_icon" />
+          <p>contact@thirstforchange.org</p>
+        </div>
+        <div class="footer_item">
+          <p>&copy; <span id="copyright-year"></span> Thirst for Change</p>
+        </div>
+        <div class="footer_item">
+          <a href="#body_top" class="back_top_link">Back to Top</a>
+        </div>
+      </div>
+    </footer>
+
+    <div
+      id="my_alert_popup_background"
+      class="my_popup_background"
+      style="display: none"
+    >
+      <div id="my_alert_popup_box" class="my_popup_box">
+        <p id="my_alert_text"></p>
+        <div class="popup_buttons">
+          <button id="my_alert_ok_button">OK</button>
+          <button id="my_alert_cancel_button" style="display: none">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+    <script src="scripts/script.js"></script>
+  </body>
+</html>
