@@ -1013,6 +1013,43 @@ body {
   .footer_content {
     justify-content: center;
   }
+
+  .menu_button {
+    width: 100%;
+    position: fixed;
+    top: 100px;
+    left: 0;
+    z-index: 1001;
+  }
+
+  .menu_bar {
+    width: 100%;
+    top: 100px;
+  }
+
+  .menu_links {
+    width: 100%;
+    top: 145px;
+    height: auto;
+    overflow-y: auto;
+  }
+
+  .menu_links ul {
+    width: 100%;
+    height: auto;
+    justify-content: flex-start;
+  }
+
+  .menu_links li {
+    width: 100%;
+    flex-grow: 0;
+  }
+
+  .menu_links a {
+    width: 100%;
+    padding: 15px 10px;
+    font-size: 0.9rem;
+  }
 }
 
 /* Small screens (mobile) */
@@ -1047,10 +1084,24 @@ body {
   }
 
   .menu_links {
-    width: 200px;
+    width: 100%;
     top: 145px;
-    height: calc(100vh - 145px);
-    bottom: auto;
+    height: auto;
+    overflow-y: auto;
+  }
+
+  .menu_links ul {
+    height: auto;
+    justify-content: flex-start;
+  }
+
+  .menu_links li {
+    flex-grow: 0;
+  }
+
+  .menu_links a {
+    padding: 15px 10px;
+    font-size: 0.9rem;
   }
 
   /* Adjusts the main content area size */
