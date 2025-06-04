@@ -38,7 +38,7 @@ body {
 
 /* landing section*/
 /* Full-screen landing section with a background image of hands and water */
-.landing_section {
+.landingSection {
   height: 100vh;
   width: 100%;
   background: url("../Images/close-up-view-nature-concept.jpg") no-repeat center
@@ -52,7 +52,7 @@ body {
 }
 
 /* The overlay for the landing section */
-.landing_section::before {
+.landingSection::before {
   content: "";
   position: absolute;
   top: 0;
@@ -63,7 +63,7 @@ body {
 }
 
 /* this is the content container within landing section */
-.landing_content {
+.landingContent {
   position: relative;
   z-index: 1;
   color: white;
@@ -73,21 +73,27 @@ body {
 }
 
 /* The landing section heading styling*/
-.landing_content h1 {
+.landingContent h1 {
   font-size: 3.5rem;
   margin-bottom: 20px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+}
+
+body.colour-blind-mode .landingContent h1 {
+  color: #ffffff;
+  text-shadow: 2px 2px 4px #000000;
 }
 
 /* The landing section paragraph styling */
-.landing_content p {
+.landingContent p {
   font-size: 1.8rem;
   margin-bottom: 40px;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 /* The start button styling */
-.start_button {
+.startButton {
   padding: 15px 50px;
   background-color: #f8d34c;
   color: #015a9c;
@@ -103,7 +109,7 @@ body {
 }
 
 /* The start button hover effect */
-.start_button:hover {
+.startButton:hover {
   background-color: #ffdf60;
   transform: translateY(-3px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
@@ -123,11 +129,12 @@ body {
 
 /* top bar */
 /* A fixed top bar styling */
-.top_bar {
+.topBar {
   background-color: #015a9c;
   color: white;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   position: fixed;
   top: 0;
   left: 0;
@@ -135,36 +142,117 @@ body {
   height: 100px;
   z-index: 1000;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 0 20px;
 }
 
 /* CSS styling and alignment for the logo image in top bar */
-.top_bar img {
-  height: 100px;
-  width: 100px;
-  margin-left: 25px;
+.topBar img {
+  height: 80px;
+  width: 80px;
   object-fit: cover;
   display: block;
+  flex-shrink: 0;
 }
 
 /* The game title text in top bar */
-.game_title_text {
-  flex: 1;
+.gameTitleText {
+  flex-grow: 1;
   text-align: center;
   font-size: 1.8rem;
   font-weight: bold;
-  padding-right: 100px;
   text-decoration: none;
   color: #ffffff;
+  padding: 0 10px;
 }
 
-/* Highlight color styling for the text */
-.highlight_yellow {
+/* Highlight colour styling for the text */
+.highlightYellow {
   color: #f8d34c;
+}
+
+/* Accessibility Controls (Colour-blind toggle) */
+.accessibilityControls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  min-width: 180px;
+  justify-content: flex-end;
+}
+
+.colourBlindToggleLabel {
+  font-size: 0.9rem;
+  color: #ffffff;
+  font-weight: normal;
+  white-space: nowrap;
+}
+
+/* The switch - a box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #f8d34c;
+}
+
+body.colour-blind-mode input:checked + .slider {
+  background-color: #007bff;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 24px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }
 
 /* sidebar */
 /* the side navigation menu container */
-.menu_bar {
+.menuBar {
   position: fixed;
   top: 100px;
   left: 0;
@@ -173,8 +261,8 @@ body {
 }
 
 /* Styling for the menu button */
-.menu_button {
-  width: 150px;
+.menuButton {
+  width: 100%;
   padding: 15px;
   background-color: #04b3fb;
   color: white;
@@ -186,19 +274,19 @@ body {
 }
 
 /* The menu button hover effect for some styling */
-.menu_button:hover {
+.menuButton:hover {
   background-color: #f8d34c;
 }
 
 /* The menu links container which are hidden by default */
-.menu_links {
+.menuLinks {
   display: none;
   background-color: #04b3fb;
-  width: 150px;
-  position: fixed;
-  top: 145px;
+  width: 100%;
+  position: absolute;
+  top: 100%;
   left: 0;
-  height: calc(100vh - 145px - 60px);
+  height: calc(100vh - 100px - 45px - 60px);
   overflow-y: auto;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
@@ -206,13 +294,13 @@ body {
 }
 
 /* The active state for the menu links */
-.menu_links.active {
+.menuLinks.active {
   display: block;
   transform: translateX(0);
 }
 
 /* The CSS for the menu list styling */
-.menu_links ul {
+.menuLinks ul {
   list-style: none;
   height: 100%;
   display: flex;
@@ -221,19 +309,19 @@ body {
 }
 
 /* Menu list items */
-.menu_links li {
+.menuLinks li {
   text-align: center;
   border-top: 1px solid #03a0e0;
   flex-grow: 1;
 }
 
 /* This removes the border from first menu item */
-.menu_links li:first-child {
+.menuLinks li:first-child {
   border-top: none;
 }
 
 /* Menu link styling */
-.menu_links a {
+.menuLinks a {
   color: white;
   text-decoration: none;
   font-weight: bold;
@@ -247,24 +335,28 @@ body {
 }
 
 /* Menu link hover effect for extra styling */
-.menu_links a:hover {
+.menuLinks a:hover {
   background-color: #f8d34c;
 }
 
 /* main area */
 /* This is the main content container */
-.main_area {
-  margin-top: 120px;
+.mainArea {
+  margin-top: calc(100px + 45px);
+  margin-left: 20px;
+  margin-right: 20px;
   margin-bottom: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   transition: margin-left 0.3s ease;
   flex-shrink: 0;
+  flex-grow: 1;
+  padding-top: 20px;
 }
 
 /* The content box styling */
-.content_box {
+.contentBox {
   width: 100%;
   max-width: 1000px;
   background-color: #ffffff;
@@ -276,7 +368,7 @@ body {
 }
 
 /* Content box heading styling */
-.content_box h1 {
+.contentBox h1 {
   text-align: center;
   color: #0f5e9c;
   margin-bottom: 25px;
@@ -284,7 +376,7 @@ body {
 
 /* form */
 /* Information form structure */
-#info_form {
+#infoForm {
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -297,7 +389,7 @@ body {
 }
 
 /* The form label styling */
-#info_form label {
+#infoForm label {
   display: block;
   font-weight: bold;
   color: #015a9c;
@@ -305,7 +397,7 @@ body {
 }
 
 /* This the styling for the form text input */
-#info_form input[type="text"] {
+#infoForm input[type="text"] {
   display: block;
   width: 100%;
   padding: 10px;
@@ -316,7 +408,7 @@ body {
 }
 
 /* STyling for the form submit button */
-#info_form button[type="submit"] {
+#infoForm button[type="submit"] {
   padding: 12px;
   background-color: #1ca3ec;
   color: white;
@@ -329,13 +421,13 @@ body {
 }
 
 /* The form submit button hover effects */
-#info_form button[type="submit"]:hover {
+#infoForm button[type="submit"]:hover {
   background-color: #0f5e9c;
 }
 
 /* simulation */
 /* This is the game container */
-#game_div {
+#gameDiv {
   margin-top: 30px;
   padding: 20px;
   border: 1px solid #74ccf4;
@@ -344,14 +436,14 @@ body {
 }
 
 /* The progress bars container */
-#progress_bars_div {
+#progressBarsDiv {
   margin-bottom: 25px;
   padding-bottom: 15px;
   border-bottom: 1px solid #d0eefc;
 }
 
 /* The attribute bars layout */
-.attribute_bars_div {
+.attributeBarsDiv {
   display: flex;
   justify-content: space-between;
   gap: 15px;
@@ -360,14 +452,14 @@ body {
 }
 
 /* An individual progress container */
-.progress_container {
+.progressContainer {
   flex: 1;
   min-width: 150px;
   margin-bottom: 10px;
 }
 
 /* Progress bar label */
-.progress_container label {
+.progressContainer label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
@@ -376,7 +468,7 @@ body {
 }
 
 /* The background for the progress bar */
-.the_bar {
+.theBar {
   background-color: #e0f7ff;
   border-radius: 5px;
   overflow: hidden;
@@ -386,7 +478,7 @@ body {
 }
 
 /* Progress bar fill styling */
-.bar_fill {
+.barFill {
   background-color: #1ca3ec;
   height: 100%;
   width: 0%;
@@ -400,21 +492,21 @@ body {
   box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Color variations for the different progress in the progress bars */
-.bar_fill.people_color {
+/* Colour variations for the different progress in the progress bars */
+.barFill.peopleColour {
   background-color: #5cb85c;
 }
 
-.bar_fill.money_color {
+.barFill.moneyColour {
   background-color: #f0ad4e;
 }
 
-.bar_fill.water_color {
+.barFill.waterColour {
   background-color: #5bc0de;
 }
 
 /* The progress bar value text */
-.bar_value {
+.barValue {
   position: absolute;
   right: 10px;
   top: 0;
@@ -426,23 +518,24 @@ body {
 
 /* our story */
 /* The story container */
-#story_div {
+#storyDiv {
   margin-bottom: 20px;
+  position: relative;
 }
 
 /* Story fade effects */
-.story_fade_effect {
+.storyFadeEffect {
   opacity: 1;
-  transition: opacity 0.4s ease-in-out;
+  transition: opacity 0.2s ease-in-out;
 }
 
 /* Fade-out state styling */
-.story_fade_effect.fade-out {
+.storyFadeEffect.fadeOut {
   opacity: 0;
 }
 
 /* The story paragraph styling */
-#story_paragraph {
+#storyParagraph {
   font-size: 1.2em;
   margin-bottom: 20px;
   line-height: 1.6;
@@ -450,19 +543,19 @@ body {
 }
 
 /* A strong text style in the story */
-#story_paragraph strong {
+#storyParagraph strong {
   font-weight: bold;
   color: #0f5e9c;
 }
 
 /* choices */
 /* This is the container for the choices form */
-#choice_form {
+#choiceForm {
   margin-top: 20px;
 }
 
 /* Styling for the individual choice item */
-#choices_div .choice-item {
+#choicesDiv .choiceItem {
   display: block;
   margin-bottom: 12px;
   background-color: #eafaff;
@@ -474,12 +567,12 @@ body {
 }
 
 /* Choices item hover effect */
-#choices_div .choice-item:hover {
+#choicesDiv .choiceItem:hover {
   background-color: #d4f3ff;
 }
 
 /* Radio buttons styling */
-#choices_div input[type="radio"] {
+#choicesDiv input[type="radio"] {
   margin-right: 10px;
   vertical-align: middle;
   cursor: pointer;
@@ -487,7 +580,7 @@ body {
 }
 
 /* The choice label styling */
-#choices_div label {
+#choicesDiv label {
   cursor: pointer;
   color: #015a9c;
   font-size: 1em;
@@ -495,20 +588,17 @@ body {
 }
 
 /* The users selected choice styling */
-#choices_div input[type="radio"]:checked + label {
-  font-weight: bold;
-  color: #0f5e9c;
-  text-decoration: none;
-}
-
-/* Styling for the users selected choice item */
-#choices_div .choice-item:has(input[type="radio"]:checked) {
+#choicesDiv .choiceItem:has(input[type="radio"]:checked) {
   background-color: #c1e8fa;
   border-color: #74ccf4;
 }
+#choicesDiv .choiceItem:has(input[type="radio"]:checked) label {
+  font-weight: bold;
+  color: #0f5e9c;
+}
 
 /* Confirm button styling */
-#confirm_button {
+#confirmButton {
   display: block;
   margin: 20px auto 0 auto;
   padding: 10px 25px;
@@ -524,20 +614,20 @@ body {
 }
 
 /* Confirm button hover effect */
-#confirm_button:hover {
+#confirmButton:hover {
   background-color: #0f5e9c;
   transform: translateY(-1px);
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
 }
 
 /* Confirm button active state styling */
-#confirm_button:active {
+#confirmButton:active {
   transform: scale(0.98);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 /* The choice button style */
-.choice_button_style {
+.choiceButtonStyle {
   display: block;
   width: 100%;
   margin: 10px 0;
@@ -554,27 +644,27 @@ body {
 }
 
 /* Choice button hover effect */
-.choice_button_style:hover {
+.choiceButtonStyle:hover {
   background-color: #1ca3ec;
   transform: translateY(-2px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }
 
 /* Choice buttons active state styling */
-.choice_button_style:active {
+.choiceButtonStyle:active {
   transform: scale(0.98);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 /* nav buttons */
 /* Navigation buttons container */
-#nav_buttons_div {
+#navButtonsDiv {
   text-align: center;
   margin-top: 20px;
 }
 
 /* The back buttons styling */
-#back_button {
+#backButton {
   padding: 10px 20px;
   background-color: #f8d34c;
   color: #015a9c;
@@ -587,33 +677,33 @@ body {
 }
 
 /* The back buttons hover effect*/
-#back_button:hover {
+#backButton:hover {
   background-color: #ffdf60;
   transform: translateY(-2px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }
 
 /* The back buttons active state styling */
-#back_button:active {
+#backButton:active {
   transform: scale(0.98);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 /* dropdowns */
 /* Dropdown container */
-.dropdown_box {
+.dropdownBox {
   width: 100%;
   max-width: 1000px;
   margin: 40px auto 0 auto;
 }
 
 /* Dropdown area width */
-.dropdowns_area {
+.dropdownsArea {
   width: 100%;
 }
 
 /* The individual dropdowns styling */
-.a_dropdown {
+.aDropdown {
   margin-bottom: 15px;
   border: 1px solid #1ca3ec;
   border-radius: 5px;
@@ -622,7 +712,7 @@ body {
 }
 
 /* Dropdown button styling */
-.dropdown_button {
+.dropdownButton {
   width: 100%;
   padding: 15px;
   text-align: left;
@@ -637,7 +727,7 @@ body {
 }
 
 /* Dropdown button arrow positioning */
-.dropdown_button::after {
+.dropdownButton::after {
   content: "\25BC";
   position: absolute;
   right: 15px;
@@ -645,42 +735,42 @@ body {
   transform: translateY(-50%);
   transition: transform 0.3s ease;
 }
+.dropdownButton.active::after {
+  transform: translateY(-50%) rotate(180deg);
+}
 
 /* The dropdown button hover effect */
-.dropdown_button:hover {
+.dropdownButton:hover {
   background-color: #0f5e9c;
 }
 
 /* The dropdown content which is hidden by default */
-.dropdown_info {
+.dropdownInfo {
   display: none;
   padding: 20px;
   flex-wrap: wrap;
   background-color: white;
   border-top: 1px solid #1ca3ec;
-  animation: slideDown 0.4s ease-out;
+  animation: slideDown 0.4s ease-out forwards;
+  max-height: 0;
+  overflow: hidden;
 }
 
 /* Active dropdowns content */
-.dropdown_info.active {
+.dropdownInfo.active {
   display: flex;
-}
-
-/* Rotate the arrow when the dropdown is active */
-.dropdown_info.active + .dropdown_button::after,
-.dropdown_button:has(+ .dropdown_info.active)::after {
-  transform: translateY(-50%) rotate(180deg);
+  max-height: 1000px;
 }
 
 /* The text part of the dropdowns */
-.dropdown_text_part {
+.dropdownTextPart {
   flex: 2;
   min-width: 60%;
   padding-right: 20px;
 }
 
 /* Dropdown headings styling */
-.dropdown_text_part h2 {
+.dropdownTextPart h2 {
   color: #0f5e9c;
   margin-bottom: 10px;
   margin-top: 15px;
@@ -688,19 +778,19 @@ body {
 }
 
 /* First heading in dropdown style */
-.dropdown_text_part h2:first-of-type {
+.dropdownTextPart h2:first-of-type {
   margin-top: 0;
 }
 
 /* Dropdown paragraph styles */
-.dropdown_text_part p {
+.dropdownTextPart p {
   margin-bottom: 10px;
   color: #0f5e9c;
   line-height: 1.6;
 }
 
 /* Image part of dropdown styles */
-.dropdown_image_part {
+.dropdownImagePart {
   flex: 1;
   min-width: 200px;
   max-width: 300px;
@@ -710,7 +800,7 @@ body {
 }
 
 /* Dropdown images styles */
-.dropdown_image_part img {
+.dropdownImagePart img {
   width: 100%;
   height: auto;
   border-radius: 5px;
@@ -719,7 +809,7 @@ body {
 
 /* about us */
 /* This is the about us section container */
-.about_us_section {
+.aboutUsSection {
   width: 100%;
   background-color: #e0f7ff;
   padding: 30px 20px;
@@ -727,7 +817,7 @@ body {
 }
 
 /* About us content container */
-.about_us_content {
+.aboutUsContent {
   width: 100%;
   max-width: 1000px;
   margin: 0 auto;
@@ -739,33 +829,33 @@ body {
 }
 
 /* About us text styling */
-.about_text {
+.aboutText {
   flex: 1;
   min-width: 300px;
   color: #0f5e9c;
 }
 
 /* About us heading styling*/
-.about_text h2 {
+.aboutText h2 {
   color: #015a9c;
   margin-bottom: 20px;
   font-size: 1.8rem;
 }
 
 /* About us paragraphs styling */
-.about_text p {
+.aboutText p {
   margin-bottom: 15px;
   line-height: 1.6;
   color: #015a9c;
 }
 
 /* The last paragraph in the about us section */
-.about_text p:last-child {
+.aboutText p:last-child {
   margin-bottom: 0;
 }
 
 /* this is the about us image container */
-.about_image {
+.aboutImage {
   flex: 1;
   min-width: 300px;
   max-width: 450px;
@@ -776,7 +866,7 @@ body {
 }
 
 /* About us image styling*/
-.about_image img {
+.aboutImage img {
   max-width: 100%;
   height: auto;
   object-fit: contain;
@@ -786,7 +876,7 @@ body {
 
 /* footer*/
 /* The footer container */
-.footer_area {
+.footerArea {
   background-color: #015a9c;
   color: white;
   width: 100%;
@@ -796,13 +886,13 @@ body {
   display: flex;
   align-items: center;
   z-index: 100;
-  padding: px 20px;
+  padding: 10px 20px;
   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.2);
   margin-top: auto;
 }
 
 /* This is the footer content container */
-.footer_content {
+.footerContent {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
@@ -817,30 +907,30 @@ body {
 }
 
 /*Container for the icon and text*/
-.footer_item {
+.footerItem {
   display: flex;
   align-items: center;
-  margin: 0 10px;
+  margin: 5px 10px;
 }
 
 /* icon image */
-.footer_icon {
+.footerIcon {
   width: 20px;
   height: 20px;
   margin-right: 10px;
   object-fit: contain;
 }
 
-.footer_item p {
+.footerItem p {
   margin: 0;
   font-size: 0.9rem;
 }
 
-.footer_item a.back_top_link {
+.footerItem a.backTopLink {
   margin: 0;
 }
 
-.back_top_link {
+.backTopLink {
   color: white;
   text-decoration: none;
   font-weight: bold;
@@ -849,12 +939,12 @@ body {
 }
 
 /* Back to top link hover effect*/
-.back_top_link:hover {
+.backTopLink:hover {
   color: #f8d34c;
 }
 
 /* Donate button styling */
-.donate_button {
+.donateButton {
   display: inline-block;
   margin-top: 20px;
   padding: 12px 24px;
@@ -869,14 +959,14 @@ body {
 }
 
 /* Donate button hover effect */
-.donate_button:hover {
+.donateButton:hover {
   background-color: #023e8a;
   transform: scale(1.05);
 }
 
 /* popup */
 /* This is the popup background overlay */
-.my_popup_background {
+.myPopupBackground {
   position: fixed;
   top: 0;
   left: 0;
@@ -888,16 +978,18 @@ body {
   align-items: center;
   z-index: 2000;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  visibility: hidden;
 }
 
 /* The visible popup background */
-.my_popup_background.visible {
+.myPopupBackground.visible {
   opacity: 1;
+  visibility: visible;
 }
 
 /* The popup box */
-.my_popup_box {
+.myPopupBox {
   background-color: #ffffff;
   padding: 30px 40px;
   border-radius: 8px;
@@ -912,19 +1004,19 @@ body {
 }
 
 /* The visible popup box */
-.my_popup_background.visible .my_popup_box {
+.myPopupBackground.visible .myPopupBox {
   transform: scale(1);
 }
 
 /* Popup alert text styling */
-#my_alert_text {
+#myAlertText {
   font-size: 1.1em;
   line-height: 1.5;
   margin-bottom: 25px;
 }
 
 /* the popup buttons container */
-.popup_buttons {
+.popupButtons {
   display: flex;
   justify-content: center;
   gap: 15px;
@@ -932,7 +1024,7 @@ body {
 }
 
 /* The popup button styling */
-.popup_buttons button {
+.popupButtons button {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -944,42 +1036,42 @@ body {
 }
 
 /* Popup button hover effect */
-.popup_buttons button:hover {
+.popupButtons button:hover {
   transform: translateY(-1px);
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
 }
 
 /* Popup button active state style */
-.popup_buttons button:active {
+.popupButtons button:active {
   transform: scale(0.98);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 /* OK button in the popups style */
-#my_alert_ok_button {
+#myAlertOkButton {
   background-color: #1ca3ec;
   color: white;
 }
 
 /* The OK button hover effect */
-#my_alert_ok_button:hover {
+#myAlertOkButton:hover {
   background-color: #0f5e9c;
 }
 
 /* The cancel button in the popup style */
-#my_alert_cancel_button {
+#myAlertCancelButton {
   background-color: #f8d34c;
   color: #015a9c;
 }
 
 /* The cancel button hover effect */
-#my_alert_cancel_button:hover {
+#myAlertCancelButton:hover {
   background-color: #ffdf60;
 }
 
 /* restart*/
 /* The restart button styling */
-#restart_button {
+#restartButton {
   padding: 10px 25px;
   background-color: #1ca3ec;
   color: white;
@@ -995,180 +1087,576 @@ body {
 }
 
 /* Restart button hover effect */
-#restart_button:hover {
+#restartButton:hover {
   background-color: #0f5e9c;
   transform: translateY(-1px);
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
 }
 
 /* The restart buttons active state style */
-#restart_button:active {
+#restartButton:active {
   transform: scale(0.98);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* responsive (starting) */
-/* Medium screens (tablets) */
+/* contact form section */
+/* Styling main container for contact form part of the page */
+.contactFormMainSection {
+  width: 100%;
+  padding: 40px 20px;
+  background-color: #e0f7ff;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Styling for the contact form itself*/
+#mainContactForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}
+
+/* Label styling for the contact form */
+#mainContactForm label {
+  display: block;
+  font-weight: bold;
+  color: #015a9c;
+  margin-bottom: 0;
+}
+
+/* Text input and textarea styling for the contact form */
+#mainContactForm input[type="text"],
+#mainContactForm input[type="email"],
+#mainContactForm textarea {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #74ccf4;
+  border-radius: 5px;
+  font-size: 1em;
+  font-family: Arial, sans-serif;
+  margin-bottom: 0;
+  box-sizing: border-box;
+}
+
+#mainContactForm textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Submit button styling for the contact form */
+#mainContactForm button[type="submit"] {
+  padding: 12px;
+  background-color: #1ca3ec;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.1em;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+/* Submit button hover effect for the contact form */
+#mainContactForm button[type="submit"]:hover {
+  background-color: #0f5e9c;
+}
+
+.contactFormMainSection .contentBox h1 {
+  text-align: center;
+  color: #0f5e9c;
+  margin-bottom: 25px;
+}
+
+/* ====== COLOUR-BLIND MODE STYLES ====== */
+body.colour-blind-mode {
+  background-color: #d1e7f7;
+  color: #003366;
+}
+
+body.colour-blind-mode .highlightYellow {
+  color: #ffcc00;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+body.colour-blind-mode .landingContent h1 {
+  color: #ffffff;
+}
+body.colour-blind-mode .landingContent p {
+  color: #f0f0f0;
+}
+
+body.colour-blind-mode .startButton {
+  background-color: #007bff;
+  color: #ffffff;
+  border: 2px solid #0056b3;
+}
+body.colour-blind-mode .startButton:hover {
+  background-color: #0056b3;
+}
+
+body.colour-blind-mode .topBar {
+  background-color: #003366;
+}
+body.colour-blind-mode .topBar .gameTitleText {
+  color: #ffffff;
+}
+body.colour-blind-mode .topBar .highlightYellow {
+  color: #ffdd44;
+  text-decoration: underline;
+}
+
+body.colour-blind-mode .menuButton {
+  background-color: #007bff;
+  color: #ffffff;
+}
+body.colour-blind-mode .menuButton:hover {
+  background-color: #ffc107;
+  color: #000000;
+}
+
+body.colour-blind-mode .menuLinks {
+  background-color: #0069d9;
+}
+body.colour-blind-mode .menuLinks a {
+  color: #ffffff;
+}
+body.colour-blind-mode .menuLinks a:hover {
+  background-color: #ffc107;
+  color: #000000;
+}
+
+body.colour-blind-mode .contentBox {
+  background-color: #f8f9fa;
+  border-color: #007bff;
+}
+body.colour-blind-mode .contentBox h1 {
+  color: #003366;
+}
+
+body.colour-blind-mode #infoForm label {
+  color: #003366;
+}
+body.colour-blind-mode #infoForm input[type="text"] {
+  border-color: #007bff;
+  background-color: #ffffff;
+  color: #000000;
+}
+body.colour-blind-mode #infoForm button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+}
+body.colour-blind-mode #infoForm button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+body.colour-blind-mode #gameDiv {
+  background-color: #e9ecef;
+  border-color: #007bff;
+}
+
+body.colour-blind-mode .progressContainer label {
+  color: #003366;
+}
+body.colour-blind-mode .theBar {
+  background-color: #ced4da;
+  border-color: #adb5bd;
+}
+body.colour-blind-mode .barFill {
+  /* General progress bar for colour-blind mode */
+  background-color: #007bff;
+  color: white;
+}
+body.colour-blind-mode .barFill.peopleColour {
+  background-color: #28a745;
+  color: white;
+}
+body.colour-blind-mode .barFill.moneyColour {
+  background-color: #ffc107;
+  color: #000000;
+}
+body.colour-blind-mode .barFill.waterColour {
+  background-color: #17a2b8;
+  color: white;
+}
+body.colour-blind-mode .barValue {
+  color: #000000;
+}
+
+body.colour-blind-mode #storyParagraph {
+  color: #003366;
+}
+body.colour-blind-mode #storyParagraph strong {
+  color: #002244;
+  text-decoration: underline;
+}
+
+body.colour-blind-mode #choicesDiv .choiceItem {
+  background-color: #e9ecef;
+  border-color: #007bff;
+}
+body.colour-blind-mode #choicesDiv .choiceItem:hover {
+  background-color: #d4eaff;
+}
+body.colour-blind-mode #choicesDiv label {
+  color: #003366;
+}
+body.colour-blind-mode
+  #choicesDiv
+  .choiceItem:has(input[type="radio"]:checked) {
+  background-color: #b8daff;
+  border-color: #0056b3;
+}
+body.colour-blind-mode
+  #choicesDiv
+  .choiceItem:has(input[type="radio"]:checked)
+  label {
+  color: #002244;
+  font-weight: bold;
+}
+
+body.colour-blind-mode #confirmButton {
+  background-color: #28a745;
+  color: white;
+}
+body.colour-blind-mode #confirmButton:hover {
+  background-color: #1e7e34;
+}
+
+body.colour-blind-mode .choiceButtonStyle {
+  background-color: #007bff;
+  color: white;
+}
+body.colour-blind-mode .choiceButtonStyle:hover {
+  background-color: #0056b3;
+}
+
+body.colour-blind-mode #backButton {
+  background-color: #ffc107;
+  color: #000000;
+  border: 1px solid #e0ac00;
+}
+body.colour-blind-mode #backButton:hover {
+  background-color: #e0ac00;
+}
+
+body.colour-blind-mode .aDropdown {
+  border-color: #007bff;
+  background-color: #f8f9fa;
+}
+body.colour-blind-mode .dropdownButton {
+  background-color: #007bff;
+  color: white;
+}
+body.colour-blind-mode .dropdownButton:hover {
+  background-color: #0056b3;
+}
+body.colour-blind-mode .dropdownInfo {
+  background-color: #f8f9fa;
+  border-top-color: #007bff;
+}
+body.colour-blind-mode .dropdownTextPart h2 {
+  color: #003366;
+}
+body.colour-blind-mode .dropdownTextPart p {
+  color: #212529;
+}
+
+body.colour-blind-mode .aboutUsSection {
+  background-color: #e0f0ff;
+}
+body.colour-blind-mode .aboutText h2 {
+  color: #003366;
+}
+body.colour-blind-mode .aboutText p {
+  color: #002244;
+}
+
+body.colour-blind-mode .footerArea {
+  background-color: #003366;
+  color: #e0f0ff;
+}
+body.colour-blind-mode .backTopLink {
+  color: #ffdd44;
+}
+body.colour-blind-mode .backTopLink:hover {
+  color: #ffffff;
+}
+
+body.colour-blind-mode .donateButton {
+  background-color: #28a745;
+  color: white;
+}
+body.colour-blind-mode .donateButton:hover {
+  background-color: #1e7e34;
+}
+
+body.colour-blind-mode .myPopupBackground {
+  background-color: rgba(0, 20, 40, 0.7);
+}
+body.colour-blind-mode .myPopupBox {
+  background-color: #f8f9fa;
+  border-color: #007bff;
+  color: #003366;
+}
+body.colour-blind-mode #myAlertOkButton {
+  background-color: #007bff;
+  color: white;
+}
+body.colour-blind-mode #myAlertOkButton:hover {
+  background-color: #0056b3;
+}
+body.colour-blind-mode #myAlertCancelButton {
+  background-color: #ffc107;
+  color: #000000;
+}
+body.colour-blind-mode #myAlertCancelButton:hover {
+  background-color: #e0ac00;
+}
+
+body.colour-blind-mode #restartButton {
+  background-color: #007bff;
+  color: white;
+}
+body.colour-blind-mode #restartButton:hover {
+  background-color: #0056b3;
+}
+
+body.colour-blind-mode .contactFormMainSection {
+  background-color: #e0f0ff;
+}
+body.colour-blind-mode #mainContactForm label {
+  color: #003366;
+}
+body.colour-blind-mode #mainContactForm input[type="text"],
+body.colour-blind-mode #mainContactForm input[type="email"],
+body.colour-blind-mode #mainContactForm textarea {
+  border-color: #007bff;
+  background-color: #ffffff;
+  color: #000000;
+}
+body.colour-blind-mode #mainContactForm button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+}
+body.colour-blind-mode #mainContactForm button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+/* TABLET RESPONSIVE */
 @media (max-width: 992px) {
-  .footer_content {
+  .gameTitleText {
+    padding: 0 5px;
+  }
+  .accessibilityControls {
+    min-width: 160px;
+  }
+  .footerContent {
     justify-content: center;
   }
 
-  .menu_button {
+  .menuBar {
     width: 100%;
-    position: fixed;
-    top: 100px;
-    left: 0;
-    z-index: 1001;
   }
 
-  .menu_bar {
+  .menuButton {
     width: 100%;
-    top: 100px;
+    position: static !important;
   }
 
-  .menu_links {
+  .menuLinks {
     width: 100%;
-    top: 145px;
+    top: 100%;
     height: auto;
+    max-height: calc(100vh - 100px - 45px - 60px);
     overflow-y: auto;
   }
 
-  .menu_links ul {
+  .menuLinks ul {
     width: 100%;
     height: auto;
     justify-content: flex-start;
   }
 
-  .menu_links li {
+  .menuLinks li {
     width: 100%;
     flex-grow: 0;
   }
 
-  .menu_links a {
+  .menuLinks a {
     width: 100%;
     padding: 15px 10px;
     font-size: 0.9rem;
+  }
+
+  .mainArea {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: calc(100px + 45px + 20px);
   }
 }
 
-/* Small screens (mobile) */
+/* MOBILE RESPONSIVE */
 @media (max-width: 768px) {
-  /* Adjusts the landing section text size */
-  .landing_content h1 {
-    font-size: 2.5rem;
+  .topBar {
+    padding: 10px;
+    height: auto;
+    flex-direction: column;
   }
-
-  .landing_content p {
-    font-size: 1.3rem;
+  .topBar img {
+    /* Logo */
+    height: 50px;
+    width: 50px;
+    margin: 5px auto;
   }
-
-  /* Adjusts the top bar text size */
-  .top_bar .game_title_text {
-    font-size: 1.5rem;
-    padding-right: 20px;
-  }
-
-  /* Adjusts the menu layout size */
-  .menu_button {
+  .gameTitleText {
+    font-size: 1.2rem;
+    padding-right: 0;
+    margin-left: 0;
+    order: 2;
     width: 100%;
-    position: fixed;
-    top: 100px;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .accessibilityControls {
+    order: 3;
+    margin-bottom: 5px;
+    width: 100%;
+    justify-content: center;
+    gap: 5px;
+    flex-direction: column;
+    align-items: center;
+  }
+  .colourBlindToggleLabel {
+    font-size: 0.85rem;
+    text-align: center;
+    margin-bottom: 3px;
+  }
+  .switch {
+    width: 44px;
+    height: 20px;
+  }
+  .slider:before {
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+  }
+  input:checked + .slider:before {
+    transform: translateX(24px);
+  }
+
+  .landingContent h1 {
+    font-size: 2rem;
+  }
+
+  .landingContent p {
+    font-size: 1.1rem;
+  }
+
+  /* === Mobile Menu Positioning === */
+  .menuBar {
+    width: 100%;
+    top: 150px;
+    height: 45px;
     left: 0;
-    z-index: 1001;
+    position: fixed;
+    z-index: 999;
   }
-
-  .menu_bar {
+  .menuButton {
+    position: static !important;
     width: 100%;
-    top: 100px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .menu_links {
+  .menuLinks {
     width: 100%;
-    top: 145px;
-    height: auto;
-    overflow-y: auto;
+    top: 100%;
+    left: 0;
+    transform: translateX(-100%);
+    max-height: calc(100vh - 150px - 45px - 60px);
+    position: absolute;
+  }
+  .menuLinks.active {
+    transform: translateX(0);
   }
 
-  .menu_links ul {
-    height: auto;
-    justify-content: flex-start;
+  .mainArea {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 10px;
+    margin-top: calc(150px + 45px + 10px);
   }
+  /* === End Mobile Menu Positioning === */
 
-  .menu_links li {
-    flex-grow: 0;
-  }
-
-  .menu_links a {
-    padding: 15px 10px;
-    font-size: 0.9rem;
-  }
-
-  /* Adjusts the main content area size */
-  .main_area {
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-bottom: 0;
+  .contentBox {
     padding: 15px;
   }
 
-  .content_box {
-    padding: 20px;
+  .contentBox h1 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
   }
 
-  .content_box h1 {
-    text-align: center;
-    color: #0f5e9c;
-    margin-bottom: 25px;
-  }
-
-  #info_form {
+  #infoForm {
     max-width: 100%;
   }
+  .attributeBarsDiv {
+    flex-direction: column;
+    gap: 10px;
+  }
 
-  /* Adjusts the footer layout size */
-  .footer_content {
-    padding-left: 20px;
-    padding-right: 20px;
+  .footerContent {
+    padding-left: 10px;
+    padding-right: 10px;
     flex-direction: column;
     align-items: center;
     text-align: center;
   }
 
-  .footer_text {
+  .footerItem {
     margin: 8px 0;
     justify-content: center;
   }
 
-  .footer_area {
+  .footerArea {
     height: auto;
-    padding: 5px 20px;
+    padding: 10px 15px;
   }
 
-  /* Adjusts the about us section */
-  .about_us_content {
+  .aboutUsContent {
     flex-direction: column;
-    padding: 30px 20px;
-    gap: 30px;
+    padding: 20px 15px;
+    gap: 20px;
   }
 
-  .about_text,
-  .about_image {
+  .aboutText,
+  .aboutImage {
     min-width: 100%;
   }
 
-  /* Adjusts the dropdown layout size*/
-  .dropdown_info {
+  .dropdownInfo {
     flex-direction: column;
   }
 
-  .dropdown_image_part {
+  .dropdownImagePart {
     padding-left: 0;
     padding-top: 15px;
     max-width: 100%;
   }
 
-  .dropdown_text_part {
+  .dropdownTextPart {
     padding-right: 0;
   }
 }

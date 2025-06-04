@@ -1,112 +1,118 @@
-//function to store the village status
+//makes a new object to store and keep track of the village's happiness, money, and water
 function VillageInfo(peopleHappy = 50, money = 50, water = 50) {
   this.peopleHappy = peopleHappy;
   this.money = money;
   this.water = water;
 }
 
-//updates the village's status based on the impact of a choice
-function update_village_stats(village_obj, impact_obj) {
-  if (impact_obj.support !== undefined) {
-    //get the current value from the village object
-    var current_happy = village_obj.peopleHappy;
-    //get the change amount from the impact object
-    var change_happy = impact_obj.support;
-    //calculate the new value
-    var new_happy = current_happy + change_happy;
-    //make sure happiness doesn't go below 0
-    if (new_happy < 0) {
-      new_happy = 0;
+//changes the happiness, money, and water values after the user picks something
+function updateVillageStats(villageObj, impactObj) {
+  try {
+    if (impactObj.support !== undefined) {
+      //get the current value from the village object
+      var currentHappy = villageObj.peopleHappy;
+      //get the change amount from the impact object
+      var changeHappy = impactObj.support;
+      //calculate the new value
+      var newHappy = currentHappy + changeHappy;
+      //make sure happiness doesn't go below 0
+      if (newHappy < 0) {
+        newHappy = 0;
+      }
+      //make sure it doesn't go above 100
+      if (newHappy > 100) {
+        newHappy = 100;
+      }
+      //update the village object with the new value
+      villageObj.peopleHappy = newHappy;
     }
-    //make sure it doesn't go above 100
-    if (new_happy > 100) {
-      new_happy = 100;
-    }
-    //update the village object with the new value
-    village_obj.peopleHappy = new_happy;
-  }
 
-  if (impact_obj.funding !== undefined) {
-    var current_money = village_obj.money;
-    var change_money = impact_obj.funding;
-    var new_money = current_money + change_money;
-    if (new_money < 0) {
-      new_money = 0;
+    if (impactObj.funding !== undefined) {
+      var currentMoney = villageObj.money;
+      var changeMoney = impactObj.funding;
+      var newMoney = currentMoney + changeMoney;
+      if (newMoney < 0) {
+        newMoney = 0;
+      }
+      if (newMoney > 100) {
+        newMoney = 100;
+      }
+      villageObj.money = newMoney;
     }
-    if (new_money > 100) {
-      new_money = 100;
+    if (impactObj.waterLevel !== undefined) {
+      var currentWater = villageObj.water;
+      var changeWater = impactObj.waterLevel;
+      var newWater = currentWater + changeWater;
+      if (newWater < 0) {
+        newWater = 0;
+      }
+      if (newWater > 100) {
+        newWater = 100;
+      }
+      villageObj.water = newWater;
     }
-    village_obj.money = new_money;
-  }
-  if (impact_obj.waterLevel !== undefined) {
-    var current_water = village_obj.water;
-    var change_water = impact_obj.waterLevel;
-    var new_water = current_water + change_water;
-    if (new_water < 0) {
-      new_water = 0;
-    }
-    if (new_water > 100) {
-      new_water = 100;
-    }
-    village_obj.water = new_water;
+  } catch (error) {
+    console.error("ERROR UPDATING THE STATS", error);
+    alert("An error occurred while updating stats. Please check the console.");
   }
 }
 
-//declating global variables
-var first_village_status = new VillageInfo(); //initial village status (which will be used for resetting)
-var current_village_status = new VillageInfo(); //village status that changes during the game
+//declaring global variables
+var firstVillageStatus = new VillageInfo(); //initial village status (which will be used for resetting)
+var currentVillageStatus = new VillageInfo(); //village status that changes during the game
 //information about where the player is in the game
-var current_game_status = {
-  current_step_name: "form",
-  which_main_choice: null,
-  step_number: 0,
+var currentGameStatus = {
+  currentStepName: "form",
+  whichMainChoice: null,
+  stepNumber: 0,
 };
-var past_steps = []; //to remember the previous steps taken
-var user_name = ""; //variable to store the player's name
-var village_input_name = ""; //variable to store the village name
+var pastSteps = []; //to remember the previous steps taken
+var userName = ""; //variable to store the player's name
+var villageInputName = ""; //variable to store the village name
 
 //getting html elements by their IDs
-var story_div = document.getElementById("story_div"); //story text area
-var story_paragraph = document.getElementById("story_paragraph"); //paragraph of the story text
-var choices_div = document.getElementById("choices_div"); //choice buttons/radios
-var info_form = document.getElementById("info_form"); //form where the user enters their name and village
-var game_div = document.getElementById("game_div"); //game/simulation div
-var back_button = document.getElementById("back_button"); //back button
-var choice_form = document.getElementById("choice_form"); //form holds the radio button choices
-var confirm_button = document.getElementById("confirm_button"); //confirm choice button
+var storyDiv = document.getElementById("storyDiv");
+var storyParagraph = document.getElementById("storyParagraph");
+var choicesDiv = document.getElementById("choicesDiv");
+var infoForm = document.getElementById("infoForm");
+var gameDiv = document.getElementById("gameDiv");
+var backButton = document.getElementById("backButton");
+var choiceForm = document.getElementById("choiceForm");
+var confirmButton = document.getElementById("confirmButton");
 
 //getting progress bar elements
-var progress_bar_fill = document.getElementById("progress_bar_fill"); //filling part of the main progress bar
-var people_bar = document.getElementById("people_bar"); //filling part of the community support bar
-var money_bar = document.getElementById("money_bar"); //filling part of the money bar
-var water_bar = document.getElementById("water_bar"); //filling part of the water bar
-var people_value = document.getElementById("people_value"); //community support percentage
-var money_value = document.getElementById("money_value"); //money percentage
-var water_value = document.getElementById("water_value"); //water percentage
+var progressBarFill = document.getElementById("progressBarFill");
+var peopleBar = document.getElementById("peopleBar");
+var moneyBar = document.getElementById("moneyBar");
+var waterBar = document.getElementById("waterBar");
+var peopleValue = document.getElementById("peopleValue");
+var moneyValue = document.getElementById("moneyValue");
+var waterValue = document.getElementById("waterValue");
 
 //popup alert elements
 //overlay for the popup
-var my_alert_popup_background = document.getElementById(
-  "my_alert_popup_background"
-);
-var my_alert_popup_box = document.getElementById("my_alert_popup_box"); //white box for the popup message
-var my_alert_text = document.getElementById("my_alert_text"); //paragraph for popup message
-var my_alert_ok_button = document.getElementById("my_alert_ok_button"); //ok button
-var my_alert_cancel_button = document.getElementById("my_alert_cancel_button"); //cancel button
+var myAlertPopupBackground = document.getElementById("myAlertPopupBackground");
+var myAlertPopupBox = document.getElementById("myAlertPopupBox"); //white box for the popup message
+var myAlertText = document.getElementById("myAlertText"); //paragraph for popup message
+var myAlertOkButton = document.getElementById("myAlertOkButton"); //ok button
+var myAlertCancelButton = document.getElementById("myAlertCancelButton"); //cancel button
+
+//colour blind mode toggle
+var colourBlindToggle = document.getElementById("colourBlindToggle");
 
 //data for the story paths and phases
 //holds all data for the simulation paths
-var all_stories = [
+var allStories = [
   {
     //choice name
     name: "Dig a Well",
     //resource
-    info_link:
+    infoLink:
       "https://washmatters.wateraid.org/publications/technology-issue-sheet-2007",
     phases: [
       //phases for path
       {
-        text: "Phase 1: Digging involves careful planning. How will you approach finding the right spot and method?", // Question text
+        text: "Phase 1: Digging involves careful planning. How will you approach finding the right spot and method?", //question text
         choices: [
           //choices for phase
           {
@@ -161,7 +167,7 @@ var all_stories = [
   },
   {
     name: "Rainwater Harvesting",
-    info_link:
+    infoLink:
       "https://www.appropedia.org/Practical_Action/Rainwater_Harvesting",
     phases: [
       {
@@ -219,7 +225,7 @@ var all_stories = [
   },
   {
     name: "Water Purification System",
-    info_link:
+    infoLink:
       "https://www.cdc.gov/global-water-sanitation-hygiene/about/about-household-water-treatment.html",
     phases: [
       {
@@ -277,7 +283,7 @@ var all_stories = [
   },
   {
     name: "Build Small Dams",
-    info_link: "https://thewaterproject.org/sand-dams",
+    infoLink: "https://thewaterproject.org/sand-dams",
     phases: [
       {
         text: "Phase 1: Dam construction requires careful engineering and environmental assessment. Who will design it?",
@@ -335,510 +341,617 @@ var all_stories = [
 ];
 
 //FUNCTIONS TO MAKE ALL THIS WORK
-//function for first form submissiom
-function start_button_click(event_thing) {
-  event_thing.preventDefault(); //stop the page from reloading on submit
-  user_name = document.getElementById("user_input_name").value.trim(); //get name and remove spaces
-  //get name and remove spaces
-  village_input_name = document
-    .getElementById("village_input_name")
-    .value.trim();
+//checks the player's name and village name, saves them, and starts the simulation.
+function startButtonClick(eventThing) {
+  try {
+    eventThing.preventDefault(); //stop the page from reloading on submit
+    userName = document.getElementById("userInputName").value.trim(); //get name and remove spaces
+    //get name and remove spaces
+    villageInputName = document.getElementById("villageInputName").value.trim();
 
-  //check if user left fields empty
-  if (user_name == "" || village_input_name == "") {
-    alert("Please type your name and village name.");
-    return;
-  }
+    //check if user left fields empty
+    if (userName == "" || villageInputName == "") {
+      showMyAlert("Please type your name and village name.", false);
+      return;
+    }
 
-  //storing names in cookies and make sure special characters in names are saved correctly
-  document.cookie = "user_name=" + encodeURIComponent(user_name);
-  document.cookie = "village_name=" + encodeURIComponent(village_input_name);
+    //storing names in cookies and make sure special characters in names are saved correctly
+    document.cookie = "userName=" + encodeURIComponent(userName) + ";path=/";
+    document.cookie =
+      "villageName=" + encodeURIComponent(villageInputName) + ";path=/";
 
-  //show custom popup
-  show_my_alert("You are about to begin the simulation.", false, function () {
-    info_form.style.display = "none"; //hide the form
-    game_div.style.display = "block"; //show main game area
-    reset_the_game(); //reset all variables
-    show_first_choices(); //show the initial choices
-  });
-}
-
-//reset game to initial state function
-function reset_the_game() {
-  current_village_status = new VillageInfo(); //create new village
-  //reset progress
-  current_game_status = {
-    current_step_name: "start",
-    which_main_choice: null,
-    step_number: 0,
-  };
-  past_steps = [];
-  update_the_bars();
-  back_button.style.display = "none"; //hide button
-  confirm_button.style.display = "none"; //hide button
-}
-
-//show initial choices function
-function show_first_choices() {
-  current_game_status.current_step_name = "start";
-
-  var welcome_text = "Welcome, Leader <strong>" + user_name + "</strong>! ";
-  welcome_text +=
-    "The village of <strong>" + village_input_name + "</strong> needs water. ";
-  welcome_text += "Choose your first big plan:";
-  change_story_text(welcome_text);
-
-  var button_options = [];
-  //loop through each path
-  for (var i = 0; i < all_stories.length; i++) {
-    //make sure each button remembers correct 'i' value
-    var make_action_func = function (index_num) {
-      return function () {
-        main_choice_picked(index_num); //correct path number passed
-      };
-    };
-    //add object to list
-    button_options.push({
-      button_text: all_stories[i].name,
-      button_action: make_action_func(i),
+    //show custom popup
+    showMyAlert("You are about to begin the simulation.", false, function () {
+      if (infoForm) infoForm.style.display = "none"; //hide the form
+      if (gameDiv) gameDiv.style.display = "block"; //show main game area
+      resetTheGame(); //reset all variables
+      showFirstChoices(); //show the initial choices
     });
+  } catch (error) {
+    console.error("UNEXPECTED ERROR in startButtonClick", error);
+    alert("An unexpected error occurred. Please check the console.");
   }
-  show_button_options(button_options);
-  update_the_bars(); //update progress bars
-  back_button.style.display = "none";
-  confirm_button.style.display = "none";
 }
 
-//this function handles what happens when the user picks a main choice in the game.
-function main_choice_picked(choice_number) {
-  remember_this_step(); //saves state so user can go back
-  current_game_status.which_main_choice = choice_number; //store path user picked
-  current_game_status.step_number = 0;
-  current_game_status.current_step_name = "step1";
-  show_current_question();
+//rputs everything back to the way it was at the beginning.
+function resetTheGame() {
+  try {
+    currentVillageStatus = new VillageInfo(); //create new village
+    //reset progress
+    currentGameStatus = {
+      currentStepName: "start",
+      whichMainChoice: null,
+      stepNumber: 0,
+    };
+    pastSteps = [];
+    updateTheBars();
+    if (backButton) backButton.style.display = "none"; //hide button
+    if (confirmButton) confirmButton.style.display = "none"; //hide button
+  } catch (error) {
+    console.error("ERROR RESETTING", error);
+    alert("An error occurred while resetting. Please check the console.");
+  }
+}
+
+//displays the first 4 main choices (dig a well, rainwater, etc)
+function showFirstChoices() {
+  try {
+    currentGameStatus.currentStepName = "start";
+
+    var welcomeText = "Welcome, Leader <strong>" + userName + "</strong>! ";
+    welcomeText +=
+      "The village of <strong>" + villageInputName + "</strong> needs water. ";
+    welcomeText += "Choose your first big plan:";
+    changeStoryText(welcomeText);
+
+    var buttonOptions = [];
+    //loop through each path
+    for (var i = 0; i < allStories.length; i++) {
+      //make sure each button remembers correct 'i' value
+      var makeActionFunc = function (indexNum) {
+        return function () {
+          mainChoicePicked(indexNum); //correct path number passed
+        };
+      };
+      //add object to list
+      buttonOptions.push({
+        buttonText: allStories[i].name,
+        buttonAction: makeActionFunc(i),
+      });
+    }
+    showButtonOptions(buttonOptions);
+    updateTheBars(); //update progress bars
+    if (backButton) backButton.style.display = "none";
+    if (confirmButton) confirmButton.style.display = "none";
+  } catch (error) {
+    console.error("ERROR SHOWING THE INITIAL CHOICES", error);
+    alert(
+      "An error occurred while showing initial choices. Please check the console."
+    );
+  }
+}
+
+//figures out which path the player chose and moves the game to the first step of that path.
+function mainChoicePicked(choiceNumber) {
+  try {
+    rememberThisStep(); //saves state so user can go back
+    currentGameStatus.whichMainChoice = choiceNumber; //store path user picked
+    currentGameStatus.stepNumber = 0;
+    currentGameStatus.currentStepName = "step1";
+    showCurrentQuestion();
+  } catch (error) {
+    console.error("ERROR IN MAIN CHOICE BEING PICKED", error);
+    alert("An error occurred in main choice. Please check the console.");
+  }
 }
 
 //this function shows the CURRENT question based on the choice made
-function show_current_question() {
-  var path_num = current_game_status.which_main_choice; //get the path
-  if (path_num === null || all_stories[path_num] === undefined) {
-    reset_the_game();
-    show_first_choices();
-    return;
-  }
-
-  var current_story = all_stories[path_num]; //get data for chosen story path
-  var step_num = current_game_status.step_number; //get current step
-
-  //checking if the step is beyond the last step, then ending if true
-  if (step_num >= current_story.phases.length) {
-    show_the_end();
-    return;
-  }
-
-  //if it isnt finished, get the data for the current step
-  var current_step_data = current_story.phases[step_num];
-  current_game_status.current_step_name = "step" + (step_num + 1);
-
-  change_story_text(current_step_data.text); //display question
-  show_radio_options(current_step_data.choices); //display choices
-  update_the_bars();
-  confirm_button.style.display = "block";
-
-  if (past_steps.length > 0) {
-    back_button.style.display = "inline-block";
-  } else {
-    back_button.style.display = "none";
-  }
-}
-
-//function for when the user confirms their choice
-function confirm_button_click(event_thing) {
-  event_thing.preventDefault();
-
-  //radio button that the user checked
-  var radio_buttons = choice_form.querySelectorAll('input[name="phaseChoice"]');
-  var checked_radio = null;
-  for (var i = 0; i < radio_buttons.length; i++) {
-    //if the radio button is checked store it
-    if (radio_buttons[i].checked) {
-      checked_radio = radio_buttons[i];
-      break;
+function showCurrentQuestion() {
+  try {
+    var pathNum = currentGameStatus.whichMainChoice; //get the path
+    if (pathNum === null || allStories[pathNum] === undefined) {
+      resetTheGame();
+      showFirstChoices();
+      return;
     }
-  }
 
-  //if the user confirms but doesn't choose anything
-  if (checked_radio == null) {
-    alert("Please pick one option.");
-    return;
-  }
+    var currentStory = allStories[pathNum]; //get data for chosen story path
+    var stepNum = currentGameStatus.stepNumber; //get current step
 
-  //get the choice number
-  var choice_number = parseInt(checked_radio.dataset.choiceIndex, 10);
-  if (isNaN(choice_number)) {
-    return; //stop if not a number
-  }
+    //checking if the step is beyond the last step, then ending if true
+    if (stepNum >= currentStory.phases.length) {
+      showTheEnd();
+      return;
+    }
 
-  //get the current game status
-  var current_step_data =
-    all_stories[current_game_status.which_main_choice].phases[
-      current_game_status.step_number
-    ];
-  var the_chosen_option = current_step_data.choices[choice_number];
+    //if it isnt finished, get the data for the current step
+    var currentStepData = currentStory.phases[stepNum];
+    currentGameStatus.currentStepName = "step" + (stepNum + 1);
 
-  if (!the_chosen_option) {
-    return; //stop if no option found
-  }
+    changeStoryText(currentStepData.text); //display question
+    showRadioOptions(currentStepData.choices); //display choices
+    updateTheBars();
+    if (confirmButton) confirmButton.style.display = "block";
 
-  do_the_choice(the_chosen_option);
-}
-
-//function that processes the choice
-function do_the_choice(option_obj) {
-  if (!option_obj) {
-    return;
-  }
-  remember_this_step();
-  update_village_stats(current_village_status, option_obj.impact);
-  current_game_status.step_number = current_game_status.step_number + 1;
-
-  show_current_question();
-}
-
-//function for go back button
-function go_back_one_step() {
-  //check where to go back one step
-  if (past_steps.length > 0) {
-    var previous_step_info = past_steps.pop();
-
-    //go back to the previous step based on the saved state
-    current_game_status = previous_step_info.game_status;
-    //go back to the previous village stats
-    current_village_status = new VillageInfo(
-      previous_step_info.village_stats.peopleHappy,
-      previous_step_info.village_stats.money,
-      previous_step_info.village_stats.water
+    if (pastSteps.length > 0) {
+      if (backButton) backButton.style.display = "inline-block";
+    } else {
+      if (backButton) backButton.style.display = "none";
+    }
+  } catch (error) {
+    console.error("ERROR SHOWING THE QUESTION", error);
+    alert(
+      "An error occurred while showing question. Please check the console."
     );
-
-    if (current_game_status.current_step_name == "start") {
-      show_first_choices(); //show initial path choices if go back to start
-    } else {
-      show_current_question();
-    }
-
-    //only show back button if there are steps to go back to
-    if (past_steps.length == 0) {
-      back_button.style.display = "none";
-    } else {
-      back_button.style.display = "inline-block";
-    }
-
-    //fade in animation for the story text
-    story_div.classList.remove("fade-out");
-    story_div.classList.add("story_fade_effect");
   }
 }
 
-//function for the summary at the end
-function show_the_end() {
-  current_game_status.current_step_name = "the_end"; //set the game to the end
-  back_button.style.display = "none"; //get rid of back button (can't go back at the end)
-  confirm_button.style.display = "none"; //get rid of confirm button (not needed at the end)
+//makes sure a choice was picked and moves to the next step
+function confirmButtonClick(eventThing) {
+  try {
+    eventThing.preventDefault();
 
-  //making sure game doesn't crash or behave weirdly when there is an invalid or missing choice
-  var path_num = current_game_status.which_main_choice;
-  if (path_num === null || all_stories[path_num] === undefined) {
-    change_story_text("ERROR SHOWING THE SUMNMARY");
-    choices_div.innerHTML = "";
-    return;
-  }
-  var chosen_story_info = all_stories[path_num];
-
-  //summary text for the end showing all data necessary for the user
-  var summary_text =
-    "The simulation for <strong>" +
-    village_input_name +
-    "</strong> has concluded, Leader <strong>" +
-    user_name +
-    "</strong>.<br/><br/>";
-  summary_text +=
-    'You chose the path: "<strong>' +
-    chosen_story_info.name +
-    '</strong>".<br/><br/>';
-  summary_text += "<strong>Final Village Status:</strong><br/>";
-  summary_text += "<ul>";
-  summary_text +=
-    "<li>Community Support: <strong>" +
-    current_village_status.peopleHappy +
-    "%</strong> " +
-    get_people_feedback(current_village_status.peopleHappy) +
-    "</li>";
-  summary_text +=
-    "<li>Funding Level: <strong>" +
-    current_village_status.money +
-    "%</strong> " +
-    get_money_feedback(current_village_status.money) +
-    "</li>";
-  summary_text +=
-    "<li>Water Level: <strong>" +
-    current_village_status.water +
-    "%</strong> " +
-    get_water_feedback(current_village_status.water) +
-    "</li>";
-  summary_text += "</ul><br/>";
-
-  //CALCULATE OVERALL SCORE
-  var total_score =
-    current_village_status.peopleHappy +
-    current_village_status.money +
-    current_village_status.water;
-  var average_score = Math.round(total_score / 3); //rounding to nearest whole number
-  summary_text +=
-    "<strong>Overall Assessment:</strong> " +
-    get_final_feedback(average_score) +
-    "<br/><br/>";
-  summary_text +=
-    "This simulation highlights the difficult choices and trade-offs involved in managing water resources. Every decision has consequences.<br/><br/>";
-
-  if (chosen_story_info && chosen_story_info.info_link) {
-    var lower_case_name = chosen_story_info.name.toLowerCase();
-    summary_text +=
-      "Choosing to " +
-      lower_case_name +
-      " is a difficult endeavour. Find out more about how similar projects work in the real world: ";
-    summary_text +=
-      '<a href="' +
-      chosen_story_info.info_link +
-      '" target="_blank" rel="noopener noreferrer">Learn More Here</a><br/><br/>';
-  }
-
-  //adds the date to the summary
-  summary_text += "Date Completed: " + get_today_date();
-
-  change_story_text(summary_text);
-  choices_div.innerHTML = "";
-
-  //play again button
-  var restart_button = document.createElement("button");
-  restart_button.textContent = "Play Again";
-  restart_button.id = "restart_button";
-  restart_button.onclick = function () {
-    show_my_alert(
-      "You are about to replay the simulation and lose your current progress. Are you sure?",
-      true,
-      function () {
-        //if ok is clicked then this happens:
-        story_div.classList.add("fade-out");
-        //waits for the fade animation to finish before resetting the game
-        setTimeout(function () {
-          reset_the_game();
-          info_form.style.display = "flex";
-          game_div.style.display = "none";
-          story_div.classList.remove("fade-out");
-        }, 400);
+    //radio button that the user checked
+    var radioButtons = choiceForm.querySelectorAll('input[name="phaseChoice"]');
+    var checkedRadio = null;
+    for (var i = 0; i < radioButtons.length; i++) {
+      //if the radio button is checked store it
+      if (radioButtons[i].checked) {
+        checkedRadio = radioButtons[i];
+        break;
       }
+    }
+
+    //if the user confirms but doesn't choose anything
+    if (checkedRadio == null) {
+      showMyAlert("Please pick one option.", false);
+      return;
+    }
+
+    //get the choice number
+    var choiceNumber = parseInt(checkedRadio.dataset.choiceIndex, 10);
+    if (isNaN(choiceNumber)) {
+      showMyAlert("INVALID CHOICE", false);
+      return; //stop if not a number
+    }
+
+    //get the current game status
+    var currentStepData =
+      allStories[currentGameStatus.whichMainChoice].phases[
+        currentGameStatus.stepNumber
+      ];
+    var theChosenOption = currentStepData.choices[choiceNumber];
+
+    if (!theChosenOption) {
+      showMyAlert(
+        "ERROR CHOSEN OPTION NOT FOUND FOR CHOICE NUMBER " + choiceNumber,
+        false
+      );
+      return; //stop if no option found
+    }
+
+    doTheChoice(theChosenOption);
+  } catch (error) {
+    console.error("ERROR CONFIRMING CHOICE", error);
+    alert(
+      "An error occurred while confirming choice. Please check the console."
     );
-  };
-
-  var nav_div = document.getElementById("nav_buttons_div");
-  nav_div.innerHTML = "";
-  nav_div.appendChild(restart_button);
-  nav_div.style.display = "block";
-  nav_div.style.textAlign = "center";
-  update_the_bars();
-}
-
-//functions saves the current game state
-function remember_this_step() {
-  //create copies of the current state so that we don't change the saved version
-  var game_status_copy = {};
-  game_status_copy.current_step_name = current_game_status.current_step_name;
-  game_status_copy.which_main_choice = current_game_status.which_main_choice;
-  game_status_copy.step_number = current_game_status.step_number;
-
-  var village_stats_copy = {};
-  village_stats_copy.peopleHappy = current_village_status.peopleHappy;
-  village_stats_copy.money = current_village_status.money;
-  village_stats_copy.water = current_village_status.water;
-
-  past_steps.push({
-    game_status: game_status_copy,
-    village_stats: village_stats_copy,
-  });
-}
-
-//function that changes story text with fancy fade effect
-function change_story_text(new_text) {
-  story_div.classList.add("fade-out");
-  setTimeout(function () {
-    story_paragraph.innerHTML = new_text;
-    story_div.classList.remove("fade-out");
-  }, 200);
-}
-
-//function that will create and show the choices
-function show_radio_options(options_array) {
-  choices_div.innerHTML = "";
-  //go through each choice in the array
-  for (var i = 0; i < options_array.length; i++) {
-    var current_option = options_array[i];
-    var option_id = "option_" + current_game_status.step_number + "_" + i;
-
-    var div_element = document.createElement("div");
-    div_element.className = "choice-item";
-
-    var label_element = document.createElement("label");
-    label_element.htmlFor = option_id;
-
-    var radio_element = document.createElement("input");
-    radio_element.type = "radio";
-    radio_element.id = option_id;
-    radio_element.name = "phaseChoice";
-    radio_element.value = i;
-    radio_element.dataset.choiceIndex = i;
-
-    label_element.appendChild(radio_element);
-
-    var text_node = document.createTextNode(" " + current_option.text);
-    label_element.appendChild(text_node);
-
-    div_element.appendChild(label_element);
-    choices_div.appendChild(div_element);
   }
-  confirm_button.style.display = "block";
+}
+
+//updates the village stats and moves forward based on the player’s pick
+function doTheChoice(optionObj) {
+  try {
+    if (!optionObj) {
+      showMyAlert(
+        "doTheChoice WAS CALLED WITHOUT optionObj AS A PARAMETER",
+        false
+      );
+      return;
+    }
+    rememberThisStep();
+    updateVillageStats(currentVillageStatus, optionObj.impact);
+    currentGameStatus.stepNumber = currentGameStatus.stepNumber + 1;
+
+    showCurrentQuestion();
+  } catch (error) {
+    console.error("ERROR WITH CHOICE", error);
+    alert("An error occurred with choice. Please check the console.");
+  }
+}
+
+//lets the user undo their last step and go back
+function goBackOneStep() {
+  try {
+    //check where to go back one step
+    if (pastSteps.length > 0) {
+      var previousStepInfo = pastSteps.pop();
+
+      //go back to the previous step based on the saved state
+      currentGameStatus = previousStepInfo.gameStatus;
+      //go back to the previous village stats
+      currentVillageStatus = new VillageInfo(
+        previousStepInfo.villageStats.peopleHappy,
+        previousStepInfo.villageStats.money,
+        previousStepInfo.villageStats.water
+      );
+
+      if (currentGameStatus.currentStepName == "start") {
+        showFirstChoices(); //show initial path choices if go back to start
+      } else {
+        showCurrentQuestion();
+      }
+
+      //only show back button if there are steps to go back to
+      if (pastSteps.length == 0) {
+        if (backButton) backButton.style.display = "none";
+      } else {
+        if (backButton) backButton.style.display = "inline-block";
+      }
+
+      //fade in animation for the story text
+      if (storyDiv) {
+        storyDiv.classList.remove("fadeOut");
+        storyDiv.classList.add("storyFadeEffect");
+      }
+    }
+  } catch (error) {
+    console.error("ERROR GOING BACK", error);
+    alert("An error occurred while going back. Please check the console.");
+  }
+}
+
+//displays the final screen with feedback, stats, and restart button
+function showTheEnd() {
+  try {
+    currentGameStatus.currentStepName = "theEnd"; //set the game to the end
+    if (backButton) backButton.style.display = "none"; //get rid of back button (can't go back at the end)
+    if (confirmButton) confirmButton.style.display = "none"; //get rid of confirm button (not needed at the end)
+
+    //making sure game doesn't crash or behave weirdly when there is an invalid or missing choice
+    var pathNum = currentGameStatus.whichMainChoice;
+    if (pathNum === null || allStories[pathNum] === undefined) {
+      changeStoryText("ERROR SHOWING THE SUMMARY");
+      if (choicesDiv) choicesDiv.innerHTML = "";
+      return;
+    }
+    var chosenStoryInfo = allStories[pathNum];
+
+    //summary text for the end showing all data necessary for the user
+    var summaryText =
+      "The simulation for <strong>" +
+      villageInputName +
+      "</strong> has concluded, Leader <strong>" +
+      userName +
+      "</strong>.<br/><br/>";
+    summaryText +=
+      'You chose the path: "<strong>' +
+      chosenStoryInfo.name +
+      '</strong>".<br/><br/>';
+    summaryText += "<strong>Final Village Status:</strong><br/>";
+    summaryText += "<ul>";
+    summaryText +=
+      "<li>Community Support: <strong>" +
+      currentVillageStatus.peopleHappy +
+      "%</strong> " +
+      getPeopleFeedback(currentVillageStatus.peopleHappy) +
+      "</li>";
+    summaryText +=
+      "<li>Funding Level: <strong>" +
+      currentVillageStatus.money +
+      "%</strong> " +
+      getMoneyFeedback(currentVillageStatus.money) +
+      "</li>";
+    summaryText +=
+      "<li>Water Level: <strong>" +
+      currentVillageStatus.water +
+      "%</strong> " +
+      getWaterFeedback(currentVillageStatus.water) +
+      "</li>";
+    summaryText += "</ul><br/>";
+
+    //CALCULATE OVERALL SCORE
+    var totalScore =
+      currentVillageStatus.peopleHappy +
+      currentVillageStatus.money +
+      currentVillageStatus.water;
+    var averageScore = Math.round(totalScore / 3); //rounding to nearest whole number
+    summaryText +=
+      "<strong>Overall Assessment:</strong> " +
+      getFinalFeedback(averageScore) +
+      "<br/><br/>";
+    summaryText +=
+      "This simulation highlights the difficult choices and trade-offs involved in managing water resources. Every decision has consequences.<br/><br/>";
+
+    if (chosenStoryInfo && chosenStoryInfo.infoLink) {
+      var lowerCaseName = chosenStoryInfo.name.toLowerCase();
+      summaryText +=
+        "Choosing to " +
+        lowerCaseName +
+        " is a difficult endeavour. Find out more about how similar projects work in the real world: ";
+      summaryText +=
+        '<a href="' +
+        chosenStoryInfo.infoLink +
+        '" target="_blank" rel="noopener noreferrer">Learn More Here</a><br/><br/>';
+    }
+
+    //adds the date to the summary
+    summaryText += "Date Completed: " + getTodayDate();
+
+    changeStoryText(summaryText);
+    if (choicesDiv) choicesDiv.innerHTML = "";
+
+    //play again button
+    var restartButtonElement = document.createElement("button");
+    restartButtonElement.textContent = "Play Again";
+    restartButtonElement.id = "restartButton";
+    restartButtonElement.onclick = function () {
+      showMyAlert(
+        "You are about to replay the simulation and lose your current progress. Are you sure?",
+        true,
+        function () {
+          //if ok is clicked then this happens:
+          if (storyDiv) storyDiv.classList.add("fadeOut");
+          //waits for the fade animation to finish before resetting the game
+          setTimeout(function () {
+            resetTheGame();
+            if (infoForm) infoForm.style.display = "flex";
+            if (gameDiv) gameDiv.style.display = "none";
+            if (storyDiv) storyDiv.classList.remove("fadeOut");
+            var navDiv = document.getElementById("navButtonsDiv");
+            if (navDiv) {
+              navDiv.innerHTML = "";
+              navDiv.appendChild(backButton);
+              backButton.style.display = "none";
+            }
+            showFirstChoices();
+          }, 400);
+        }
+      );
+    };
+
+    var navDiv = document.getElementById("navButtonsDiv");
+    if (navDiv) {
+      navDiv.innerHTML = "";
+      navDiv.appendChild(restartButtonElement);
+      navDiv.style.display = "block";
+      navDiv.style.textAlign = "center";
+    }
+    updateTheBars();
+  } catch (error) {
+    console.error("ERROR SHOWING THE SUMMARY AT THE END", error);
+    alert("An error occurred while showing summary. Please check the console.");
+  }
+}
+
+//saves the current step and stats so the game can go back if needed
+function rememberThisStep() {
+  try {
+    //create copies of the current state so that we don't change the saved version
+    var gameStatusCopy = {};
+    gameStatusCopy.currentStepName = currentGameStatus.currentStepName;
+    gameStatusCopy.whichMainChoice = currentGameStatus.whichMainChoice;
+    gameStatusCopy.stepNumber = currentGameStatus.stepNumber;
+
+    var villageStatsCopy = {};
+    villageStatsCopy.peopleHappy = currentVillageStatus.peopleHappy;
+    villageStatsCopy.money = currentVillageStatus.money;
+    villageStatsCopy.water = currentVillageStatus.water;
+
+    pastSteps.push({
+      gameStatus: gameStatusCopy,
+      villageStats: villageStatsCopy,
+    });
+  } catch (error) {
+    console.error("ERROR REMEMBERING THE STEP", error);
+  }
+}
+
+//replaces the story text smoothly with the fancy fade effect on the screen
+function changeStoryText(newText) {
+  try {
+    if (storyDiv) {
+      storyDiv.classList.add("fadeOut");
+      setTimeout(function () {
+        if (storyParagraph) storyParagraph.innerHTML = newText;
+        storyDiv.classList.remove("fadeOut");
+      }, 200);
+    }
+  } catch (error) {
+    console.error("ERROR CHANGING THE TEXT IN THE STORY", error);
+    if (storyParagraph) storyParagraph.innerHTML = newText; //fallback if animation fails
+  }
+}
+
+//creates and shows the list of choices as radio buttons
+function showRadioOptions(optionsArray) {
+  try {
+    if (!choicesDiv) return;
+    choicesDiv.innerHTML = "";
+    //go through each choice in the array
+    for (var i = 0; i < optionsArray.length; i++) {
+      var currentOption = optionsArray[i];
+      var optionId = "option_" + currentGameStatus.stepNumber + "_" + i;
+
+      var divElement = document.createElement("div");
+      divElement.className = "choiceItem";
+
+      var labelElement = document.createElement("label");
+      labelElement.htmlFor = optionId;
+
+      var radioElement = document.createElement("input");
+      radioElement.type = "radio";
+      radioElement.id = optionId;
+      radioElement.name = "phaseChoice";
+      radioElement.value = i;
+      radioElement.dataset.choiceIndex = i; //store index in data attribute
+
+      labelElement.appendChild(radioElement);
+
+      var textNode = document.createTextNode(" " + currentOption.text);
+      labelElement.appendChild(textNode);
+
+      divElement.appendChild(labelElement);
+      choicesDiv.appendChild(divElement);
+    }
+    if (confirmButton) confirmButton.style.display = "block";
+  } catch (error) {
+    console.error("ERROR SHOWING THE OPTIONS", error);
+    alert("An error occurred while showing options. Please check the console.");
+  }
 }
 
 //function that creates and shows the first choices
-function show_button_options(options_array) {
-  choices_div.innerHTML = ""; // this clears choices before adding new things, used it above as well in other places
-  confirm_button.style.display = "none";
-  for (var i = 0; i < options_array.length; i++) {
-    var button_element = document.createElement("button");
-    button_element.innerHTML = options_array[i].button_text;
-    button_element.onclick = options_array[i].button_action;
-    button_element.className = "choice_button_style";
-    choices_div.appendChild(button_element);
+function showButtonOptions(optionsArray) {
+  try {
+    if (!choicesDiv) return;
+    choicesDiv.innerHTML = ""; // this clears choices before adding new things, used it above as well in other places
+    if (confirmButton) confirmButton.style.display = "none";
+    for (var i = 0; i < optionsArray.length; i++) {
+      var buttonElement = document.createElement("button");
+      buttonElement.innerHTML = optionsArray[i].buttonText;
+      buttonElement.onclick = optionsArray[i].buttonAction;
+      buttonElement.className = "choiceButtonStyle";
+      choicesDiv.appendChild(buttonElement);
+    }
+  } catch (error) {
+    console.error("ERROR SHOWING BUTTON OPTIONS", error);
+    alert(
+      "An error occurred while showing button options. Please check the console."
+    );
   }
 }
 
-//function that updates the progress bars
-function update_the_bars() {
-  //checks for all the progress
-  if (
-    !progress_bar_fill ||
-    !people_bar ||
-    !money_bar ||
-    !water_bar ||
-    !people_value ||
-    !money_value ||
-    !water_value
-  ) {
-    return;
-  }
+//updates the visual progress bars for happiness, money, and water
+function updateTheBars() {
+  try {
+    //checks for all the progress
+    if (
+      !progressBarFill ||
+      !peopleBar ||
+      !moneyBar ||
+      !waterBar ||
+      !peopleValue ||
+      !moneyValue ||
+      !waterValue
+    ) {
+      return;
+    }
 
-  //calculate the progress
-  var number_of_steps = 0;
-  if (current_game_status.which_main_choice !== null) {
-    number_of_steps =
-      all_stories[current_game_status.which_main_choice].phases.length;
-  }
-  var current_step = current_game_status.step_number;
-  var progress_percent = 0;
+    //calculate the progress
+    var numberOfSteps = 0;
+    if (
+      currentGameStatus.whichMainChoice !== null &&
+      allStories[currentGameStatus.whichMainChoice]
+    ) {
+      numberOfSteps =
+        allStories[currentGameStatus.whichMainChoice].phases.length;
+    }
+    var currentStep = currentGameStatus.stepNumber;
+    var progressPercent = 0;
 
-  if (current_game_status.current_step_name == "the_end") {
-    progress_percent = 100;
-  } else if (
-    current_game_status.current_step_name != "start" &&
-    current_game_status.current_step_name != "form" &&
-    number_of_steps > 0
-  ) {
-    progress_percent = Math.round((current_step / number_of_steps) * 100);
-  }
-  progress_bar_fill.style.width = progress_percent + "%";
-  progress_bar_fill.textContent = progress_percent + "%";
+    if (currentGameStatus.currentStepName == "theEnd") {
+      progressPercent = 100;
+    } else if (
+      currentGameStatus.currentStepName != "start" &&
+      currentGameStatus.currentStepName != "form" &&
+      numberOfSteps > 0
+    ) {
+      progressPercent = Math.round((currentStep / numberOfSteps) * 100);
+    }
+    progressBarFill.style.width = progressPercent + "%";
+    progressBarFill.textContent = progressPercent + "%";
 
-  //fr community support
-  var happy_percent = current_village_status.peopleHappy;
-  if (happy_percent < 0) {
-    happy_percent = 0;
-  }
-  if (happy_percent > 100) {
-    happy_percent = 100;
-  }
-  happy_percent = Math.round(happy_percent);
+    //fr community support
+    var happyPercent = currentVillageStatus.peopleHappy;
+    if (happyPercent < 0) {
+      happyPercent = 0;
+    }
+    if (happyPercent > 100) {
+      happyPercent = 100;
+    }
+    happyPercent = Math.round(happyPercent);
 
-  //for funding
-  var money_percent = current_village_status.money;
-  if (money_percent < 0) {
-    money_percent = 0;
-  }
-  if (money_percent > 100) {
-    money_percent = 100;
-  }
-  money_percent = Math.round(money_percent);
+    //for funding
+    var moneyPercent = currentVillageStatus.money;
+    if (moneyPercent < 0) {
+      moneyPercent = 0;
+    }
+    if (moneyPercent > 100) {
+      moneyPercent = 100;
+    }
+    moneyPercent = Math.round(moneyPercent);
 
-  //for water level
-  var water_percent = current_village_status.water;
-  if (water_percent < 0) {
-    water_percent = 0;
-  }
-  if (water_percent > 100) {
-    water_percent = 100;
-  }
-  water_percent = Math.round(water_percent);
+    //for water level
+    var waterPercent = currentVillageStatus.water;
+    if (waterPercent < 0) {
+      waterPercent = 0;
+    }
+    if (waterPercent > 100) {
+      waterPercent = 100;
+    }
+    waterPercent = Math.round(waterPercent);
 
-  people_bar.style.width = happy_percent + "%";
-  people_value.textContent = happy_percent + "%";
-  money_bar.style.width = money_percent + "%";
-  money_value.textContent = money_percent + "%";
-  water_bar.style.width = water_percent + "%";
-  water_value.textContent = water_percent + "%";
+    peopleBar.style.width = happyPercent + "%";
+    peopleValue.textContent = happyPercent + "%";
+    moneyBar.style.width = moneyPercent + "%";
+    moneyValue.textContent = moneyPercent + "%";
+    waterBar.style.width = waterPercent + "%";
+    waterValue.textContent = waterPercent + "%";
+  } catch (error) {
+    console.error("ERROR UPDATING THE BARS", error);
+  }
 }
 
 //function that gets the date and format as DD/MM/YYYY
-function get_today_date() {
-  var today = new Date();
-  var day_num = today.getDate();
-  var month_num = today.getMonth() + 1; //bcz months are 0-indexed
-  var year_num = today.getFullYear();
+function getTodayDate() {
+  try {
+    var today = new Date();
+    var dayNum = today.getDate();
+    var monthNum = today.getMonth() + 1; //bcz months are 0-indexed
+    var yearNum = today.getFullYear();
 
-  //convert to string
-  var day_str = String(day_num);
-  if (day_num < 10) {
-    day_str = "0" + day_num;
-  }
-  var month_str = String(month_num);
-  if (month_num < 10) {
-    month_str = "0" + month_num;
-  }
+    //convert to string
+    var dayStr = String(dayNum);
+    if (dayNum < 10) {
+      dayStr = "0" + dayNum;
+    }
+    var monthStr = String(monthNum);
+    if (monthNum < 10) {
+      monthStr = "0" + monthNum;
+    }
 
-  var date_text = day_str + "/" + month_str + "/" + year_num;
-  return date_text;
+    var dateText = dayStr + "/" + monthStr + "/" + yearNum;
+    return dateText;
+  } catch (error) {
+    console.error("ERROR GETTING THE DATE", error);
+    return "N/A"; //return a fallback
+  }
 }
 
 //all of these functions will give the user feedback based on a scores for the different categories
-function get_people_feedback(value) {
+function getPeopleFeedback(value) {
   if (value >= 80) return "(Excellent!)";
   if (value >= 60) return "(Good)";
   if (value >= 40) return "(Fair)";
   if (value >= 20) return "(Poor)";
   return "(Very Poor)";
 }
-function get_money_feedback(value) {
+function getMoneyFeedback(value) {
   if (value >= 80) return "(Well Funded)";
   if (value >= 60) return "(Adequate Funding)";
   if (value >= 40) return "(Funding Concerns)";
   if (value >= 20) return "(Financial Strain)";
   return "(Critically Low Funds)";
 }
-function get_water_feedback(value) {
+function getWaterFeedback(value) {
   if (value >= 80) return "(Abundant)";
   if (value >= 60) return "(Sufficient)";
   if (value >= 40) return "(Stable but Limited)";
   if (value >= 20) return "(Scarcity Warning)";
   return "(Critical Shortage)";
 }
-function get_final_feedback(score) {
+function getFinalFeedback(score) {
   if (score >= 80) return "Your leadership led to outstanding results!";
   if (score >= 60) return "A commendable effort with positive outcomes.";
   if (score >= 40)
@@ -849,253 +962,427 @@ function get_final_feedback(score) {
 }
 
 //functions for the popup alert
-var ok_button_action = null;
+var okButtonAction = null;
 //shows custom popup
-function show_my_alert(
-  text_message,
-  show_cancel_button,
-  function_to_run_on_ok
-) {
-  //this checks if the popup elements exist first
-  if (
-    !my_alert_popup_background ||
-    !my_alert_text ||
-    !my_alert_ok_button ||
-    !my_alert_cancel_button
-  ) {
-    if (show_cancel_button) {
-      if (confirm(text_message)) {
-        if (function_to_run_on_ok) {
-          function_to_run_on_ok();
+function showMyAlert(textMessage, showCancelButton, functionToRunOnOk) {
+  try {
+    //this checks if the popup elements exist first
+    if (
+      !myAlertPopupBackground ||
+      !myAlertText ||
+      !myAlertOkButton ||
+      !myAlertCancelButton
+    ) {
+      //fallback to normal alert
+      console.warn("Custom alert elements not found, using native dialogs.");
+      if (showCancelButton) {
+        if (confirm(textMessage)) {
+          if (functionToRunOnOk) {
+            functionToRunOnOk();
+          }
+        }
+      } else {
+        alert(textMessage);
+        if (functionToRunOnOk) {
+          functionToRunOnOk();
         }
       }
-    } else {
-      alert(text_message);
-      if (function_to_run_on_ok) {
-        function_to_run_on_ok();
-      }
+      return;
     }
-    return;
+
+    myAlertText.textContent = textMessage;
+    okButtonAction = functionToRunOnOk;
+
+    if (showCancelButton == true) {
+      myAlertCancelButton.style.display = "inline-block";
+    } else {
+      myAlertCancelButton.style.display = "none";
+    }
+
+    myAlertPopupBackground.style.display = "flex";
+    setTimeout(() => {
+      myAlertPopupBackground.classList.add("visible");
+      if (myAlertPopupBox) myAlertPopupBox.classList.add("visible");
+    }, 10);
+  } catch (error) {
+    console.error("ERROR SHOWING ALERT", error);
+    //fallback alert if custom fails catastrophically
+    alert(textMessage);
+    if (!showCancelButton && functionToRunOnOk) {
+      functionToRunOnOk();
+    }
   }
-
-  my_alert_text.textContent = text_message;
-  ok_button_action = function_to_run_on_ok;
-
-  if (show_cancel_button == true) {
-    my_alert_cancel_button.style.display = "inline-block";
-  } else {
-    my_alert_cancel_button.style.display = "none";
-  }
-
-  my_alert_popup_background.style.display = "flex";
-  my_alert_popup_background.style.opacity = "1";
 }
 
 //hides the custom popup
-function hide_my_alert() {
-  if (!my_alert_popup_background) {
-    return;
+function hideMyAlert() {
+  try {
+    if (!myAlertPopupBackground) {
+      return;
+    }
+    myAlertPopupBackground.classList.remove("visible");
+    if (myAlertPopupBox) myAlertPopupBox.classList.remove("visible");
+
+    setTimeout(function () {
+      if (myAlertPopupBackground) myAlertPopupBackground.style.display = "none";
+      okButtonAction = null;
+    }, 300);
+  } catch (error) {
+    console.error("ERROR HIDING ALERT", error);
+    //IF custom hiding fails, ensure it's at least hidden
+    if (myAlertPopupBackground) myAlertPopupBackground.style.display = "none";
   }
-  my_alert_popup_background.style.opacity = "0";
-  setTimeout(function () {
-    my_alert_popup_background.style.display = "none";
-    ok_button_action = null;
-  }, 300);
 }
 
 //COOKUES
 //function to grt a cookie value
-function get_the_cookie(cookie_name) {
-  var all_cookies_string = document.cookie; //get cookie
-  //split into indiviudal cookies (using the ;)
-  var list_of_cookies = all_cookies_string.split(";");
+function getTheCookie(cookieName) {
+  try {
+    var allCookiesString = document.cookie; //get cookie
+    //split into indiviudal cookies (using the ;)
+    var listOfCookies = allCookiesString.split(";");
 
-  //loop through all cookies
-  for (var i = 0; i < list_of_cookies.length; i++) {
-    var one_cookie = list_of_cookies[i]; //get current cookie
-    //remove spaces
-    while (one_cookie.charAt(0) == " ") {
-      one_cookie = one_cookie.substring(1);
-    }
+    //loop through all cookies
+    for (var i = 0; i < listOfCookies.length; i++) {
+      var oneCookie = listOfCookies[i];
+      //remove spaces
+      while (oneCookie.charAt(0) == " ") {
+        oneCookie = oneCookie.substring(1);
+      }
 
-    var name_to_find = cookie_name + "=";
-    if (one_cookie.indexOf(name_to_find) == 0) {
-      var value = one_cookie.substring(name_to_find.length, one_cookie.length);
-      try {
-        return decodeURIComponent(value);
-      } catch (e) {
-        console.log("Error reading cookie: " + cookie_name);
-        return null;
+      var nameToFind = cookieName + "=";
+      if (oneCookie.indexOf(nameToFind) == 0) {
+        var value = oneCookie.substring(nameToFind.length, oneCookie.length);
+        try {
+          return decodeURIComponent(value);
+        } catch (e) {
+          console.error("ERROR DECODING COOKIE " + cookieName + ":", value, e);
+          return value; //return raw value if decoding fails
+        }
       }
     }
+  } catch (error) {
+    console.error("ERROR GETTING COOKIE " + cookieName + ":", error);
   }
   return null; //if there is no cookie
 }
 
+//function to apply colour blind mode
+function applyColourBlindMode(isEnabled) {
+  if (isEnabled) {
+    document.body.classList.add("colour-blind-mode");
+  } else {
+    document.body.classList.remove("colour-blind-mode");
+  }
+}
+
+//event listener for the colour blind toggle
+if (colourBlindToggle) {
+  colourBlindToggle.addEventListener("change", function () {
+    try {
+      applyColourBlindMode(this.checked);
+      localStorage.setItem("colourBlindModeEnabled", this.checked);
+    } catch (error) {
+      console.error("Error handling colour blind toggle:", error);
+    }
+  });
+}
+
+//load colour-blind mode choice on page load
+function loadColourBlindPreference() {
+  try {
+    const isEnabled = localStorage.getItem("colourBlindModeEnabled") === "true";
+    if (colourBlindToggle) {
+      colourBlindToggle.checked = isEnabled;
+    }
+    applyColourBlindMode(isEnabled);
+  } catch (error) {
+    console.error("Error loading colour blind preference:", error);
+  }
+}
+
 //event lisreners
-//all of this will only run when the page is fully loaded
+//the big setup function that runs when the page loads
 document.addEventListener("DOMContentLoaded", function () {
-  //getting names from cookies
-  var saved_user = get_the_cookie("user_name");
-  var saved_village = get_the_cookie("village_name");
+  try {
+    storyDiv = document.getElementById("storyDiv");
+    storyParagraph = document.getElementById("storyParagraph");
+    choicesDiv = document.getElementById("choicesDiv");
+    infoForm = document.getElementById("infoForm");
+    gameDiv = document.getElementById("gameDiv");
+    backButton = document.getElementById("backButton");
+    choiceForm = document.getElementById("choiceForm");
+    confirmButton = document.getElementById("confirmButton");
 
-  var name_input_box = document.getElementById("user_input_name");
-  var village_input_box = document.getElementById("village_input_name");
+    progressBarFill = document.getElementById("progressBarFill");
+    peopleBar = document.getElementById("peopleBar");
+    moneyBar = document.getElementById("moneyBar");
+    waterBar = document.getElementById("waterBar");
+    peopleValue = document.getElementById("peopleValue");
+    moneyValue = document.getElementById("moneyValue");
+    waterValue = document.getElementById("waterValue");
 
-  if (saved_user != null && name_input_box != null) {
-    name_input_box.value = saved_user;
-    user_name = saved_user;
-  }
+    myAlertPopupBackground = document.getElementById("myAlertPopupBackground");
+    myAlertPopupBox = document.getElementById("myAlertPopupBox");
+    myAlertText = document.getElementById("myAlertText");
+    myAlertOkButton = document.getElementById("myAlertOkButton");
+    myAlertCancelButton = document.getElementById("myAlertCancelButton");
 
-  if (saved_village != null && village_input_box != null) {
-    village_input_box.value = saved_village;
-    village_input_name = saved_village;
-  }
+    colourBlindToggle = document.getElementById("colourBlindToggle");
+    loadColourBlindPreference();
 
-  if (info_form) {
-    info_form.addEventListener("submit", start_button_click);
-  } else {
-    console.log("Error: info_form not found!");
-  }
+    //getting names from cookies
+    var savedUser = getTheCookie("userName");
+    var savedVillage = getTheCookie("villageName");
 
-  if (back_button) {
-    back_button.addEventListener("click", go_back_one_step);
-  } else {
-    console.log("Error: back_button not found!");
-  }
+    var nameInputBox = document.getElementById("userInputName");
+    var villageInputBox = document.getElementById("villageInputName");
 
-  if (choice_form) {
-    choice_form.addEventListener("submit", confirm_button_click);
-  } else {
-    console.log("Error: choice_form not found!");
-  }
+    if (savedUser != null && nameInputBox != null) {
+      nameInputBox.value = savedUser;
+      userName = savedUser;
+    }
 
-  if (my_alert_ok_button) {
-    my_alert_ok_button.addEventListener("click", function () {
-      if (ok_button_action) {
-        ok_button_action();
-      }
-      hide_my_alert();
-    });
-  }
-  if (my_alert_cancel_button) {
-    my_alert_cancel_button.addEventListener("click", function () {
-      hide_my_alert();
-    });
-  }
+    if (savedVillage != null && villageInputBox != null) {
+      villageInputBox.value = savedVillage;
+      villageInputName = savedVillage;
+    }
 
-  // variables to get the menu elements
-  var menu_toggle_button = document.querySelector(".menu_button");
-  var menu_div = document.querySelector(".menu_links");
-  var main_content_area = document.querySelector(".main_area");
-  var footer_content_area = document.querySelector(".footer_content");
+    if (infoForm) {
+      infoForm.addEventListener("submit", startButtonClick);
+    } else {
+      console.error("ERROR infoForm IS NOT FOUND!!!");
+    }
 
-  //check if all the menu elements are there
-  if (
-    menu_toggle_button &&
-    menu_div &&
-    main_content_area &&
-    footer_content_area
-  ) {
-    menu_toggle_button.addEventListener("click", function (event) {
-      event.stopPropagation();
-      menu_div.classList.toggle("active");
-      var is_active = menu_div.classList.contains("active");
-      if (window.innerWidth > 768) {
-        main_content_area.style.marginLeft = is_active ? "170px" : "20px";
-        footer_content_area.style.paddingLeft = is_active ? "170px" : "20px";
-      } else {
-        main_content_area.style.marginLeft = "20px";
-        footer_content_area.style.paddingLeft = "20px";
-      }
-    });
+    if (backButton) {
+      backButton.addEventListener("click", goBackOneStep);
+    } else {
+      console.error("ERROR backButton IS NOT FOUND!!!");
+    }
 
-    document.addEventListener("click", function (event) {
-      var clicked_element = event.target;
-      if (
-        !clicked_element.closest(".menu_bar") &&
-        menu_div.classList.contains("active")
-      ) {
-        menu_div.classList.remove("active");
-        if (window.innerWidth > 768) {
-          main_content_area.style.marginLeft = "20px";
-          footer_content_area.style.paddingLeft = "20px";
-        }
-      }
-    });
-    var menu_links_list = menu_div.querySelectorAll("a");
-    for (var i = 0; i < menu_links_list.length; i++) {
-      menu_links_list[i].addEventListener("click", function (event) {
-        var link_target = this.getAttribute("href");
-        if (link_target && link_target.startsWith("#")) {
-          event.preventDefault();
-          var target_element = document.querySelector(link_target);
-          if (target_element) {
-            var header_height = 110; // Approx height of top bar + toggle
-            var element_pos = target_element.getBoundingClientRect().top;
-            var scroll_to_pos =
-              element_pos + window.pageYOffset - header_height;
-            //smoooooth scroll
-            window.scrollTo({ top: scroll_to_pos, behavior: "smooth" });
-            if (menu_div.classList.contains("active")) {
-              menu_div.classList.remove("active");
-              if (window.innerWidth > 768) {
-                main_content_area.style.marginLeft = "20px";
-                footer_content_area.style.paddingLeft = "20px";
-              }
-            }
+    if (choiceForm) {
+      choiceForm.addEventListener("submit", confirmButtonClick);
+    } else {
+      console.error("ERROR choiceForm IS NOT FOUND!!!");
+    }
+
+    if (myAlertOkButton) {
+      myAlertOkButton.addEventListener("click", function () {
+        try {
+          if (okButtonAction) {
+            okButtonAction();
           }
+          hideMyAlert();
+        } catch (e) {
+          console.error("ERROR IN OK BUTTON:", e);
+          hideMyAlert(); //ensure popup hides anyway
         }
       });
     }
-  }
+    if (myAlertCancelButton) {
+      myAlertCancelButton.addEventListener("click", function () {
+        hideMyAlert();
+      });
+    }
 
-  //dropdown sections
-  var all_dropdown_buttons = document.querySelectorAll(".dropdown_button");
-  for (var i = 0; i < all_dropdown_buttons.length; i++) {
-    all_dropdown_buttons[i].addEventListener("click", function (event) {
-      event.stopPropagation();
-      var this_dropdown_content = this.nextElementSibling;
-      if (
-        !this_dropdown_content ||
-        !this_dropdown_content.classList.contains("dropdown_info")
-      ) {
-        console.log("Could not find dropdown info for button: ", this);
-        return;
-      }
-      var was_active = this_dropdown_content.classList.contains("active");
-      var all_dropdown_contents = document.querySelectorAll(".dropdown_info");
-      for (var j = 0; j < all_dropdown_contents.length; j++) {
-        if (all_dropdown_contents[j] !== this_dropdown_content) {
-          all_dropdown_contents[j].classList.remove("active");
+    if (colourBlindToggle) {
+      colourBlindToggle.addEventListener("change", function () {
+        try {
+          applyColourBlindMode(this.checked);
+          localStorage.setItem("colourBlindModeEnabled", this.checked);
+        } catch (error) {
+          console.error("Error handling colour blind toggle:", error);
         }
+      });
+    } else {
+      console.error(
+        "colourBlindToggle element not found after DOMContentLoaded"
+      );
+    }
+
+    // variables to get the menu elements
+    var menuToggleButton = document.querySelector(".menuButton");
+    var menuDiv = document.querySelector(".menuLinks");
+    var mainContentArea = document.querySelector(".mainArea");
+    var footerContentArea = document.querySelector(".footerContent");
+
+    //check if all the menu elements are there
+    if (menuToggleButton && menuDiv && mainContentArea && footerContentArea) {
+      menuToggleButton.addEventListener("click", function (event) {
+        try {
+          event.stopPropagation();
+          menuDiv.classList.toggle("active");
+          var isActive = menuDiv.classList.contains("active");
+
+          if (window.innerWidth > 992) {
+            mainContentArea.style.marginLeft = isActive ? "170px" : "20px";
+            footerContentArea.style.paddingLeft = isActive ? "170px" : "20px";
+          } else {
+            mainContentArea.style.marginLeft = "20px";
+            footerContentArea.style.paddingLeft = "20px";
+          }
+        } catch (e) {
+          console.error("ERROR IN MENU ", e);
+        }
+      });
+
+      document.addEventListener("click", function (event) {
+        try {
+          var clickedElement = event.target;
+          if (
+            !clickedElement.closest(".menuBar") &&
+            menuDiv.classList.contains("active")
+          ) {
+            menuDiv.classList.remove("active");
+            if (window.innerWidth > 992) {
+              mainContentArea.style.marginLeft = "20px";
+              footerContentArea.style.paddingLeft = "20px";
+            }
+          }
+        } catch (e) {
+          console.error("ERROR IN DOCUMENT CLICK FOR MENU:", e);
+        }
+      });
+
+      var menuLinksList = menuDiv.querySelectorAll("a");
+      for (var i = 0; i < menuLinksList.length; i++) {
+        menuLinksList[i].addEventListener("click", function (event) {
+          try {
+            var linkTarget = this.getAttribute("href");
+            if (linkTarget && linkTarget.startsWith("#")) {
+              event.preventDefault();
+              var targetElement = document.querySelector(linkTarget);
+              if (targetElement) {
+                var topBarHeight =
+                  document.querySelector(".topBar")?.offsetHeight || 100;
+                var menuButtonHeight = 0;
+                if (window.innerWidth <= 992) {
+                  menuButtonHeight =
+                    document.querySelector(".menuButton")?.offsetHeight || 45;
+                }
+                var headerHeight = topBarHeight;
+                if (
+                  window.innerWidth <= 992 &&
+                  !menuDiv.classList.contains("active")
+                )
+                  var elementPos = targetElement.getBoundingClientRect().top;
+                var scrollToPos =
+                  elementPos + window.pageYOffset - headerHeight;
+
+                if (linkTarget === "#gameSection" && window.innerWidth <= 992) {
+                  let menuBarMobileHeight =
+                    document.querySelector(".menuBar")?.offsetHeight || 45;
+                  if (!menuDiv.classList.contains("active")) {
+                    // if menu is closed
+                    scrollToPos =
+                      elementPos +
+                      window.pageYOffset -
+                      topBarHeight -
+                      menuBarMobileHeight;
+                  } else {
+                    // if menu is open, it will cover part of top
+                    scrollToPos =
+                      elementPos + window.pageYOffset - topBarHeight;
+                  }
+                }
+
+                window.scrollTo({ top: scrollToPos, behavior: "smooth" });
+
+                if (menuDiv.classList.contains("active")) {
+                  menuDiv.classList.remove("active");
+                  if (window.innerWidth > 992) {
+                    mainContentArea.style.marginLeft = "20px";
+                    footerContentArea.style.paddingLeft = "20px";
+                  }
+                }
+              }
+            }
+          } catch (e) {
+            console.error("ERROR IN MENU LINK CLICK:", e);
+          }
+        });
       }
-      if (was_active) {
-        this_dropdown_content.classList.remove("active");
-      } else {
-        this_dropdown_content.classList.add("active");
+    } else {
+      console.error(
+        "ERROR, ONE OR MORE MENU ELEMENTS NOT FOUND: menuToggleButton, menuDiv, mainContentArea, or footerContentArea"
+      );
+    }
+
+    //dropdown sections
+    var allDropdownButtons = document.querySelectorAll(".dropdownButton");
+    for (var i = 0; i < allDropdownButtons.length; i++) {
+      allDropdownButtons[i].addEventListener("click", function (event) {
+        try {
+          event.stopPropagation();
+          var thisDropdownContent = this.nextElementSibling;
+
+          if (
+            !thisDropdownContent ||
+            !thisDropdownContent.classList.contains("dropdownInfo")
+          ) {
+            console.error("ERROR, CAN'T FIND DROPDOWN INFO FOR BUTTON:", this);
+            return;
+          }
+
+          var wasActive = thisDropdownContent.classList.contains("active");
+
+          var allActiveDropdownContents = document.querySelectorAll(
+            ".dropdownInfo.active"
+          );
+          for (var j = 0; j < allActiveDropdownContents.length; j++) {
+            if (allActiveDropdownContents[j] !== thisDropdownContent) {
+              allActiveDropdownContents[j].classList.remove("active");
+              var otherButton =
+                allActiveDropdownContents[j].previousElementSibling;
+              if (
+                otherButton &&
+                otherButton.classList.contains("dropdownButton")
+              ) {
+                otherButton.classList.remove("active");
+              }
+            }
+          }
+
+          if (wasActive) {
+            thisDropdownContent.classList.remove("active");
+            this.classList.remove("active");
+          } else {
+            thisDropdownContent.classList.add("active");
+            this.classList.add("active");
+          }
+        } catch (e) {
+          console.error("ERROR IN DROPDOWN BUTTON CLICK:", e);
+        }
+      });
+    }
+
+    document.addEventListener("click", function (event) {
+      try {
+        if (!event.target.closest(".aDropdown")) {
+          var allDropdownContents = document.querySelectorAll(
+            ".dropdownInfo.active"
+          );
+          for (var i = 0; i < allDropdownContents.length; i++) {
+            allDropdownContents[i].classList.remove("active");
+            var button = allDropdownContents[i].previousElementSibling;
+            if (button && button.classList.contains("dropdownButton")) {
+              button.classList.remove("active");
+            }
+          }
+        }
+      } catch (e) {
+        console.error("ERROR IN DOCUMENT CLICK FOR DROPDOWN:", e);
       }
     });
-  }
 
-  document.addEventListener("click", function (event) {
-    if (!event.target.closest(".a_dropdown")) {
-      var all_dropdown_contents = document.querySelectorAll(
-        ".dropdown_info.active"
-      );
-      for (var i = 0; i < all_dropdown_contents.length; i++) {
-        all_dropdown_contents[i].classList.remove("active");
-      }
+    var yearSpan = document.getElementById("copyrightYear");
+    if (yearSpan) {
+      yearSpan.textContent = new Date().getFullYear();
     }
-  });
-
-  //dynamic copyright year to be extra fancy
-  var year_span = document.getElementById("copyright-year");
-  if (year_span) {
-    year_span.textContent = new Date().getFullYear();
+  } catch (mainError) {
+    console.error("ERROR LOADING THE PAGE!", mainError);
+    alert(
+      "A critical error occurred while loading the page. Please check the console."
+    );
   }
-
-  //shows user browser info in a popup when the page loads
-  //because the assignment decided that this is necessary even though it doesn't look nice
-  alert('You are using "' + navigator.userAgent + '" browser.');
 });

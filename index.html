@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles/styles.css" />
   </head>
-  <body id="body_top">
+  <body id="bodyTop">
     <noscript>
       <div
         style="
@@ -20,48 +20,57 @@
       </div>
     </noscript>
 
-    <section class="landing_section" id="landing">
-      <div class="landing_content">
+    <section class="landingSection" id="landing">
+      <div class="landingContent">
         <h1 style="color: #74ccf4">
-          Welcome to Thirst for <span class="highlight_yellow">Change</span>
+          Welcome to Thirst for <span class="highlightYellow">Change</span>
         </h1>
         <p>
           Experience the impact of water conservation through our interactive
           simulation
         </p>
-        <a href="#game_section" class="start_button">Enter Simulation</a>
+        <a href="#gameSection" class="startButton">Enter Simulation</a>
       </div>
     </section>
 
-    <div class="top_bar">
-      <a href="#body_top"><img src="Images/Untitled-1.jpg" alt="Logo" /></a>
-      <a href="#body_top" class="game_title_text"
-        >Thirst for <span class="highlight_yellow">Change</span></a
+    <div class="topBar">
+      <a href="#bodyTop"><img src="Images/Untitled-1.jpg" alt="Logo" /></a>
+      <a href="#bodyTop" class="gameTitleText"
+        >Thirst for <span class="highlightYellow">Change</span></a
       >
+      <div class="accessibilityControls">
+        <label class="colourBlindToggleLabel" for="colourBlindToggle"
+          >Colour-Blind Mode:</label
+        >
+        <label class="switch">
+          <input type="checkbox" id="colourBlindToggle" />
+          <span class="slider round"></span>
+        </label>
+      </div>
     </div>
-    <div class="menu_bar">
-      <button class="menu_button">☰ Menu</button>
-      <div class="menu_links">
+    <div class="menuBar">
+      <button class="menuButton">☰ Menu</button>
+      <div class="menuLinks">
         <ul>
           <li><a href="#landing">Home</a></li>
-          <li><a href="#game_section">Simulation</a></li>
-          <li><a href="#about_section">About</a></li>
-          <li><a href="#contact_section">Contact</a></li>
+          <li><a href="#gameSection">Simulation</a></li>
+          <li><a href="#aboutSection">About</a></li>
+          <li><a href="#contactFormSectionContent">Contact</a></li>
         </ul>
       </div>
     </div>
 
-    <div class="main_area" id="game_section">
-      <div class="content_box">
+    <div class="mainArea" id="gameSection">
+      <div class="contentBox">
         <h1>Thirst for Change</h1>
-        <form id="info_form">
-          <label for="user_input_name">Your Name:</label>
-          <input type="text" id="user_input_name" name="playerName" required />
+        <form id="infoForm">
+          <label for="userInputName">Your Name:</label>
+          <input type="text" id="userInputName" name="playerName" required />
 
-          <label for="village_input_name">Village Name:</label>
+          <label for="villageInputName">Village Name:</label>
           <input
             type="text"
-            id="village_input_name"
+            id="villageInputName"
             name="villageName"
             required
           />
@@ -69,60 +78,60 @@
           <button type="submit">Start Simulation</button>
         </form>
 
-        <div id="game_div" style="display: none">
-          <div id="progress_bars_div">
-            <div class="progress_container">
+        <div id="gameDiv" style="display: none">
+          <div id="progressBarsDiv">
+            <div class="progressContainer">
               <label for="generalProgress">Simulation Progress:</label>
-              <div class="the_bar">
-                <div id="progress_bar_fill" class="bar_fill">0%</div>
+              <div class="theBar">
+                <div id="progressBarFill" class="barFill">0%</div>
               </div>
             </div>
-            <div class="attribute_bars_div">
-              <div class="progress_container">
+            <div class="attributeBarsDiv">
+              <div class="progressContainer">
                 <label for="supportProgress">Community Support:</label>
-                <div class="the_bar">
-                  <div id="people_bar" class="bar_fill people_color"></div>
-                  <span id="people_value" class="bar_value">50%</span>
+                <div class="theBar">
+                  <div id="peopleBar" class="barFill peopleColour"></div>
+                  <span id="peopleValue" class="barValue">50%</span>
                 </div>
               </div>
-              <div class="progress_container">
+              <div class="progressContainer">
                 <label for="fundingProgress">Funding:</label>
-                <div class="the_bar">
-                  <div id="money_bar" class="bar_fill money_color"></div>
-                  <span id="money_value" class="bar_value">50%</span>
+                <div class="theBar">
+                  <div id="moneyBar" class="barFill moneyColour"></div>
+                  <span id="moneyValue" class="barValue">50%</span>
                 </div>
               </div>
-              <div class="progress_container">
+              <div class="progressContainer">
                 <label for="waterLevelProgress">Water Level:</label>
-                <div class="the_bar">
-                  <div id="water_bar" class="bar_fill water_color"></div>
-                  <span id="water_value" class="bar_value">50%</span>
+                <div class="theBar">
+                  <div id="waterBar" class="barFill waterColour"></div>
+                  <span id="waterValue" class="barValue">50%</span>
                 </div>
               </div>
             </div>
           </div>
-          <div id="story_div" class="story_fade_effect">
-            <p id="story_paragraph">Loading simulation...</p>
+          <div id="storyDiv" class="storyFadeEffect">
+            <p id="storyParagraph">Loading simulation...</p>
           </div>
 
-          <form id="choice_form">
-            <div id="choices_div"></div>
-            <button type="submit" id="confirm_button" style="display: none">
+          <form id="choiceForm">
+            <div id="choicesDiv"></div>
+            <button type="submit" id="confirmButton" style="display: none">
               Confirm Choice
             </button>
           </form>
 
-          <div id="nav_buttons_div" style="margin-top: 20px">
-            <button id="back_button" style="display: none">Go Back</button>
+          <div id="navButtonsDiv" style="margin-top: 20px">
+            <button id="backButton" style="display: none">Go Back</button>
           </div>
         </div>
       </div>
-      <div class="dropdown_box">
-        <div class="dropdowns_area">
-          <div class="a_dropdown" id="tips">
-            <button class="dropdown_button">Water Conservation Tips</button>
-            <div class="dropdown_info">
-              <div class="dropdown_text_part">
+      <div class="dropdownBox">
+        <div class="dropdownsArea">
+          <div class="aDropdown" id="tips">
+            <button class="dropdownButton">Water Conservation Tips</button>
+            <div class="dropdownInfo">
+              <div class="dropdownTextPart">
                 <h2>Tip 1</h2>
                 <p>
                   Water conservation is crucial for sustaining our environment
@@ -150,8 +159,37 @@
                   reduce reliance on municipal supplies.
                 </p>
                 <br />
+                <h2>Tip 3</h2>
+                <p>
+                  Regarding toilet flushing and sanitation, several methods can
+                  reduce water consumption. Placing a full glass bottle in the
+                  toilet cistern can limit each flush to a maximum of 6 litres
+                  if municipal drinking water must be used. It is recommended to
+                  only flush toilets when necessary.Greywater from laundry,
+                  baths, and showers, or water from rain, boreholes, or
+                  well-points should be used for flushing whenever possible.
+                  Using less toilet paper can minimize the risk of sewer
+                  blockages. Closing the toilet stopcock (angle valve) will also
+                  save municipal drinking water.
+                </p>
+                <br />
+                <h2>Tip 4</h2>
+                <p>
+                  For body washing and personal hygiene, taking short,
+                  stop-start showers is recommended: wet your body, turn off the
+                  tap, soap up, and then rinse quickly. Taps should not be left
+                  running for too long or at full flow, and a cup should be used
+                  for activities like shaving or brushing teeth. If a shower is
+                  not an option, a sponge bath using minimal water in a basin,
+                  bowl, or washtub is an alternative. Waterless hand sanitizer
+                  can be used instead of washing hands. Water should not be run
+                  while waiting for it to heat; instead, use cold water if
+                  possible, or heat water for a sponge bath using a kettle or
+                  stove.
+                </p>
+                <br />
               </div>
-              <div class="dropdown_image_part">
+              <div class="dropdownImagePart">
                 <img
                   src="Images/realistic-water-drop-with-ecosystem.jpg"
                   alt="Tips image"
@@ -159,10 +197,10 @@
               </div>
             </div>
           </div>
-          <div class="a_dropdown" id="project_about">
-            <button class="dropdown_button">About Our Project</button>
-            <div class="dropdown_info">
-              <div class="dropdown_text_part">
+          <div class="aDropdown" id="projectAbout">
+            <button class="dropdownButton">About Our Project</button>
+            <div class="dropdownInfo">
+              <div class="dropdownTextPart">
                 <p>
                   Thirst for Change is dedicated to raising awareness about the
                   critical issue of water scarcity. Through our innovative
@@ -175,7 +213,7 @@
                   water scarcity.
                 </p>
               </div>
-              <div class="dropdown_image_part">
+              <div class="dropdownImagePart">
                 <img
                   src="Images/medium-shot-mean-cleaning-their-hands.jpg"
                   alt="About image"
@@ -183,10 +221,10 @@
               </div>
             </div>
           </div>
-          <div class="a_dropdown" id="help">
-            <button class="dropdown_button">How You Can Help</button>
-            <div class="dropdown_info">
-              <div class="dropdown_text_part">
+          <div class="aDropdown" id="help">
+            <button class="dropdownButton">How You Can Help</button>
+            <div class="dropdownInfo">
+              <div class="dropdownTextPart">
                 <p>
                   Thirst for Change is dedicated to raising awareness about the
                   critical issue of water scarcity. Through our innovative
@@ -201,13 +239,13 @@
                 </p>
                 <a
                   href="https://water.org/donate/"
-                  class="donate_button"
+                  class="donateButton"
                   target="_blank"
                   rel="noopener noreferrer"
                   >Donate Now</a
                 >
               </div>
-              <div class="dropdown_image_part">
+              <div class="dropdownImagePart">
                 <img src="Images/5007690.jpg" alt="Help image" />
               </div>
             </div>
@@ -215,9 +253,9 @@
         </div>
       </div>
     </div>
-    <div class="about_us_section" id="about_section">
-      <div class="about_us_content">
-        <div class="about_text">
+    <div class="aboutUsSection" id="aboutSection">
+      <div class="aboutUsContent">
+        <div class="aboutText">
           <h2>About Us</h2>
           <p>
             Thirst for Change is dedicated to raising awareness about the
@@ -230,46 +268,73 @@
             in the fight against water scarcity.
           </p>
         </div>
-        <div class="about_image">
+        <div class="aboutImage">
           <img src="Images/Water_Droplet.png" alt="Water drop" />
         </div>
       </div>
     </div>
-    <footer class="footer_area" id="contact_section">
-      <div class="footer_content">
-        <div class="footer_item">
-          <img src="Images/phone (1).png" alt="Phone" class="footer_icon" />
+
+    <section class="contactFormMainSection" id="contactFormSectionContent">
+      <div class="contentBox">
+        <h1>Get in Touch</h1>
+        <form id="mainContactForm">
+          <label for="formFieldName">Your Name:</label>
+          <input type="text" id="formFieldName" name="formFieldName" required />
+
+          <label for="formFieldEmail">Your Email:</label>
+          <input
+            type="email"
+            id="formFieldEmail"
+            name="formFieldEmail"
+            required
+          />
+
+          <label for="formFieldMessage">Message:</label>
+          <textarea
+            id="formFieldMessage"
+            name="formFieldMessage"
+            rows="6"
+            required
+          ></textarea>
+
+          <button type="submit">Send Message</button>
+        </form>
+      </div>
+    </section>
+
+    <footer class="footerArea" id="footerInfo">
+      <div class="footerContent">
+        <div class="footerItem">
+          <img src="Images/phone (1).png" alt="Phone" class="footerIcon" />
           <p>012 555 1234</p>
         </div>
-        <div class="footer_item">
-          <img src="Images/gps.png" alt="Location" class="footer_icon" />
+        <div class="footerItem">
+          <img src="Images/gps.png" alt="Location" class="footerIcon" />
           <p>123 Water Street, Centurion</p>
         </div>
-        <div class="footer_item">
-          <img src="Images/letter.png" alt="Email" class="footer_icon" />
+        <div class="footerItem">
+          <img src="Images/letter.png" alt="Email" class="footerIcon" />
           <p>contact@thirstforchange.org</p>
         </div>
-        <div class="footer_item">
-          <p>&copy; <span id="copyright-year"></span> Thirst for Change</p>
+        <div class="footerItem">
+          <p>&copy; <span id="copyrightYear"></span> Thirst for Change</p>
         </div>
-        <div class="footer_item">
-          <a href="#body_top" class="back_top_link">Back to Top</a>
+        <div class="footerItem">
+          <a href="#bodyTop" class="backTopLink">Back to Top</a>
         </div>
       </div>
     </footer>
 
     <div
-      id="my_alert_popup_background"
-      class="my_popup_background"
+      id="myAlertPopupBackground"
+      class="myPopupBackground"
       style="display: none"
     >
-      <div id="my_alert_popup_box" class="my_popup_box">
-        <p id="my_alert_text"></p>
-        <div class="popup_buttons">
-          <button id="my_alert_ok_button">OK</button>
-          <button id="my_alert_cancel_button" style="display: none">
-            Cancel
-          </button>
+      <div id="myAlertPopupBox" class="myPopupBox">
+        <p id="myAlertText"></p>
+        <div class="popupButtons">
+          <button id="myAlertOkButton">OK</button>
+          <button id="myAlertCancelButton" style="display: none">Cancel</button>
         </div>
       </div>
     </div>
