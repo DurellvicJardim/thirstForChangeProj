@@ -1255,35 +1255,30 @@ document.addEventListener("DOMContentLoaded", function () {
               if (targetElement) {
                 var topBarHeight =
                   document.querySelector(".topBar")?.offsetHeight || 100;
-                var menuButtonHeight = 0;
-                if (window.innerWidth <= 992) {
-                  menuButtonHeight =
-                    document.querySelector(".menuButton")?.offsetHeight || 45;
-                }
-                var headerHeight = topBarHeight;
-                if (
-                  window.innerWidth <= 992 &&
-                  !menuDiv.classList.contains("active")
-                )
-                  var elementPos = targetElement.getBoundingClientRect().top;
-                var scrollToPos =
-                  elementPos + window.pageYOffset - headerHeight;
 
-                if (linkTarget === "#gameSection" && window.innerWidth <= 992) {
-                  let menuBarMobileHeight =
+                var elementPos = targetElement.getBoundingClientRect().top;
+
+                var currentScrollY = window.pageYOffset;
+                var scrollToPos;
+
+                if (window.innerWidth <= 992) {
+                  var menuBarHeight =
                     document.querySelector(".menuBar")?.offsetHeight || 45;
-                  if (!menuDiv.classList.contains("active")) {
-                    // if menu is closed
-                    scrollToPos =
-                      elementPos +
-                      window.pageYOffset -
-                      topBarHeight -
-                      menuBarMobileHeight;
+                  var effectiveHeaderOffset = topBarHeight + menuBarHeight;
+
+                  if (linkTarget === "#gameSection") {
+                    if (!menuDiv.classList.contains("active")) {
+                      scrollToPos =
+                        elementPos + currentScrollY - effectiveHeaderOffset;
+                    } else {
+                      scrollToPos = elementPos + currentScrollY - topBarHeight;
+                    }
                   } else {
-                    // if menu is open, it will cover part of top
                     scrollToPos =
-                      elementPos + window.pageYOffset - topBarHeight;
+                      elementPos + currentScrollY - effectiveHeaderOffset;
                   }
+                } else {
+                  scrollToPos = elementPos + currentScrollY - topBarHeight;
                 }
 
                 window.scrollTo({ top: scrollToPos, behavior: "smooth" });
