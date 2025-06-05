@@ -759,7 +759,8 @@ input:checked + .slider:before {
 /* Active dropdowns content */
 .dropdownInfo.active {
   display: flex;
-  max-height: 1000px;
+  max-height: 2000px;
+  overflow-y: auto;
 }
 
 /* The text part of the dropdowns */
@@ -1671,6 +1672,6 @@ body.colour-blind-mode #mainContactForm button[type="submit"]:hover {
   to {
     opacity: 1;
     transform: translateY(0);
-    max-height: 1000px;
+    max-height: 2000px;
   }
 }
