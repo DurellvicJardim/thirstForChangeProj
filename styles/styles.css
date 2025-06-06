@@ -1176,7 +1176,7 @@ input:checked + .slider:before {
   margin-bottom: 25px;
 }
 
-/* ====== COLOUR-BLIND MODE STYLES ====== */
+/*  COLOUR-BLIND MODE STYLES  */
 body.colour-blind-mode {
   background-color: #d1e7f7;
   color: #003366;
@@ -1513,7 +1513,6 @@ body.colour-blind-mode #mainContactForm button[type="submit"]:hover {
     flex-direction: column;
   }
   .topBar img {
-    /* Logo */
     height: 50px;
     width: 50px;
     margin: 5px auto;
@@ -1563,7 +1562,7 @@ body.colour-blind-mode #mainContactForm button[type="submit"]:hover {
     font-size: 1.1rem;
   }
 
-  /* === Mobile Menu Positioning === */
+  /*  Mobile Menu Positioning  */
   .menuBar {
     width: 100%;
     top: 150px;
@@ -1599,7 +1598,6 @@ body.colour-blind-mode #mainContactForm button[type="submit"]:hover {
     padding: 10px;
     margin-top: calc(150px + 45px + 10px);
   }
-  /* === End Mobile Menu Positioning === */
 
   .contentBox {
     padding: 15px;
